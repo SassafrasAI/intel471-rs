@@ -1,0 +1,558 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ASE API",
+    "version": "1.0.4"
+  },
+  "servers": [
+    {
+      "url": "https://api.intel471.cloud/integrations/ase/v1",
+      "description": "ASE API server"
+    }
+  ],
+  "paths": {
+    "/monitor": {
+      "get": {
+        "operationId": "get_ase_monitors",
+        "summary": "List Monitors",
+        "parameters": [
+          {
+            "name": "last_run_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Last Run After"
+            }
+          },
+          {
+            "name": "last_run_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Last Run Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/monitor_api__configure___locals___MonitorInfo__3"
+                  },
+                  "title": "Response Get Ase Monitors"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "ase-monitor"
+        ],
+        "x-api-package": "ASE"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ASEMonitorDefinition": {
+        "type": "object",
+        "properties": {
+          "alerts": {
+            "$ref": "#/components/schemas/AlertOptions"
+          },
+          "collection_method": {
+            "$ref": "#/components/schemas/CollectionMethod"
+          },
+          "created_at": {
+            "type": "integer",
+            "maximum": 4294967296,
+            "minimum": 0,
+            "title": "Created At"
+          },
+          "disabled_modules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Disabled Modules"
+          },
+          "event_types": {
+            "description": "Event data types to collect. If none selected (default), all event types will be collected.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Event Types"
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/Frequency"
+          },
+          "impact": {
+            "$ref": "#/components/schemas/Impact"
+          },
+          "iteration": {
+            "$ref": "#/components/schemas/IterationOptions"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 0,
+            "title": "Labels"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          },
+          "start_at": {
+            "type": "integer",
+            "maximum": 4294967296,
+            "minimum": 0,
+            "title": "Start At"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "pattern": "^(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^\\d+\\.\\d+\\.\\d+\\.\\d+/\\d+$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^[a-zA-Z0-9.!#$%&'*+-/=^_`{|}~]+@(localhost|[a-zA-Z0-9.-]+\\.[a-zA-Z0-9-]{2,})$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^\\+\\d+$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^(?:[\\w\\'’.-]+)(?:\\s+[\\w\\'’.-]+)+$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^\\d{1,10}$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^(([\\w\\d\\-]|[\\w\\d][\\w\\d\\-]*[\\w\\d])\\.)+([\\w\\d\\-]|[\\w\\d][\\w\\d\\-]*[\\w\\d])$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^0x[a-fA-F0-9]{40}$",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^\\S{2,64}$",
+                  "type": "string"
+                }
+              ]
+            },
+            "examples": [
+              [
+                "8.8.8.8",
+                "1.2.3.0/32",
+                "jane.doe@example.com",
+                "+12345678910",
+                "Jane Doe",
+                "1234",
+                "::ffff:101:101some.example.com",
+                "some.example.com",
+                "username"
+              ]
+            ],
+            "minItems": 1,
+            "title": "Targets"
+          }
+        },
+        "required": [
+          "name",
+          "targets",
+          "labels",
+          "frequency",
+          "impact",
+          "collection_method"
+        ],
+        "title": "ASEMonitorDefinition"
+      },
+      "AlertOptions": {
+        "type": "object",
+        "properties": {
+          "callback_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Callback Url"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Emails"
+          },
+          "excluded_event_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Excluded Event Types"
+          },
+          "excluded_finding_risks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RiskLabel"
+            },
+            "title": "Excluded Finding Risks"
+          },
+          "slack_webhook": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slack Webhook"
+          }
+        },
+        "title": "AlertOptions"
+      },
+      "CollectionMethod": {
+        "type": "string",
+        "enum": [
+          "passive",
+          "essential",
+          "full"
+        ],
+        "title": "CollectionMethod"
+      },
+      "Frequency": {
+        "type": "string",
+        "enum": [
+          "manual",
+          "daily",
+          "monthly",
+          "weekly"
+        ],
+        "title": "Frequency"
+      },
+      "HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail"
+          }
+        },
+        "title": "HTTPValidationError"
+      },
+      "Impact": {
+        "type": "string",
+        "enum": [
+          "insignificant",
+          "minor",
+          "moderate",
+          "major",
+          "catastrophic"
+        ],
+        "title": "Impact"
+      },
+      "IterationOptions": {
+        "type": "object",
+        "properties": {
+          "affiliates": {
+            "description": "Obtain information about affiliates discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Affiliate iteration"
+          },
+          "cohosts": {
+            "description": "Obtain information about co-hosts discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Co-host iteration"
+          },
+          "crypto": {
+            "description": "Obtain information about cryptocurrency addresses discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Cryptocurrency iteration"
+          },
+          "emails": {
+            "description": "Obtain information about email addresses discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Email address iteration"
+          },
+          "hosts": {
+            "description": "Obtain information about hostnames, domain names, IP addresses and networks discovered during the scan.",
+            "type": "boolean",
+            "default": true,
+            "title": "Host and network iteration"
+          },
+          "names": {
+            "description": "Obtain information about names discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Human name iteration"
+          },
+          "phones": {
+            "description": "Obtain information about phone numbers discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Phone number iteration"
+          },
+          "users": {
+            "description": "Obtain information about usernames discovered during the scan.",
+            "type": "boolean",
+            "default": false,
+            "title": "Username iteration"
+          }
+        },
+        "title": "IterationOptions"
+      },
+      "RiskLabel": {
+        "type": "string",
+        "enum": [
+          "INFO",
+          "LOW",
+          "MEDIUM",
+          "HIGH",
+          "CRITICAL"
+        ],
+        "title": "RiskLabel"
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "findings__FindingStats": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "integer",
+            "maximum": 4294967296,
+            "minimum": 0,
+            "title": "Created At"
+          },
+          "finding_count": {
+            "type": "integer",
+            "exclusiveMaximum": 9223372036854776000,
+            "minimum": -9223372036854776000,
+            "title": "Finding Count"
+          },
+          "risk": {
+            "type": "number",
+            "title": "Risk"
+          },
+          "threat_count": {
+            "type": "integer",
+            "default": 0,
+            "exclusiveMaximum": 9223372036854776000,
+            "minimum": -9223372036854776000,
+            "title": "Threat Count"
+          },
+          "transaction_type": {
+            "type": "string",
+            "default": "monitor-run",
+            "enum": [
+              "monitor-run",
+              "workflow-update",
+              "data-update"
+            ],
+            "title": "Transaction Type"
+          },
+          "trigerred_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigerred By"
+          }
+        },
+        "required": [
+          "finding_count",
+          "risk"
+        ],
+        "title": "FindingStats"
+      },
+      "monitor_api__configure___locals___MonitorInfo__3": {
+        "type": "object",
+        "properties": {
+          "definition": {
+            "$ref": "#/components/schemas/ASEMonitorDefinition"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "last_run": {
+            "anyOf": [
+              {
+                "maximum": 4294967296,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Run"
+          },
+          "next_run": {
+            "anyOf": [
+              {
+                "maximum": 4294967296,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Run"
+          },
+          "stats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/findings__FindingStats"
+            },
+            "title": "Stats"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "CREATED",
+                  "INITIALISING",
+                  "STARTED",
+                  "STARTING",
+                  "RUNNING",
+                  "CORRELATING",
+                  "FINISHED",
+                  "ABORTED",
+                  "ABORT-REQUESTED",
+                  "ERROR-FAILED",
+                  "POST PROCESSING",
+                  "OPEN",
+                  "ANALYSIS RUNNING"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "threat": {
+            "type": "boolean",
+            "default": false,
+            "title": "Threat"
+          }
+        },
+        "required": [
+          "id",
+          "definition",
+          "stats",
+          "last_run",
+          "next_run"
+        ],
+        "title": "MonitorInfo"
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Provide basic authentication credentials."
+      }
+    }
+  }
+}

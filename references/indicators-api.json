@@ -1,0 +1,784 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "description": "Welcome to the **Indicators API** This package is used to retrieve a list of threat indicators -  pieces of data that suggest malicious activity, such as IP addresses, URLs, file hashes, domains, or patterns of behavior.",
+    "title": "Indicators API",
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "description": "Indicators API URL",
+      "url": "https://api.intel471.cloud/integrations/indicators/v1"
+    }
+  ],
+  "paths": {
+    "/indicators/stream": {
+      "get": {
+        "operationId": "getIndicatorsStream",
+        "summary": "Stream indicators using a cursor",
+        "description": "Indicators sorted in ascending order of processed time.",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Search by indicator type",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "domain",
+                "email",
+                "file",
+                "ipv4",
+                "url",
+                "yara"
+              ]
+            }
+          },
+          {
+            "name": "threat_type",
+            "in": "query",
+            "description": "Search by indicator threat type",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "malware",
+                "bulletproof_hosting"
+              ]
+            },
+            "example": "malware"
+          },
+          {
+            "name": "confidence",
+            "in": "query",
+            "description": "Search by indicator confidence",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "NTg2ZDYwOWUtNzhmMS00MDY5LTg3M2QtYTI5MWRjNzBhNTYyOjE3MDU0NTA5MDgwMDA6ZmM5NGY1NGM2MzZlOTc2ZmFhZmVjMTAwMmY2Y2U1OWIxYWY0ZjcxZg=="
+          },
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Free text search (all fields included)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Georgia"
+          },
+          {
+            "name": "malware_id",
+            "in": "query",
+            "description": "Search by malware id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "malware--61617350-6466-5fd8-8272-1266be341a1e"
+          },
+          {
+            "name": "malware_family_id",
+            "in": "query",
+            "description": "Search by malware family id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "malware-family--92eb4b5f-cfc5-5460-bd43-53fae450ac9a"
+          },
+          {
+            "name": "malware_family_name",
+            "in": "query",
+            "description": "Search by malware family name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "dreambot"
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), `my_girs` or `company_pirs`. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned. Max size: `1000`",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "maximum": 1000,
+              "minimum": 1
+            },
+            "example": 1000
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Long unix timestamp in milliseconds. Search data starting from given `activity.first_seen_ts` and `activity.last_seen_ts` (including). Example - `1627776000000`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Long unix timestamp in milliseconds. Search data ending before given `activity.first_seen_ts` and `activity.last_seen_ts` (excluding). Example - `1627776000000`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IndicatorsStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Indicators"
+        ]
+      }
+    },
+    "/indicators/{id}": {
+      "get": {
+        "operationId": "getIndicatorById",
+        "summary": "Get indicator by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the indicator",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "malware-indicator--6cc708b7-4d00-5ca9-8cbe-66bd69d17feb"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationsIndicator"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Indicators"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Activity": {
+        "description": "Activity information related to the entity",
+        "type": "object",
+        "properties": {
+          "first_seen_ts": {
+            "description": "First time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_ts": {
+            "description": "Last time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "first_seen_ts",
+          "last_seen_ts"
+        ]
+      },
+      "BulletproofHosting": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "Classification": {
+        "description": "Classification information for the entity",
+        "type": "object",
+        "properties": {
+          "girs": {
+            "description": "List of General Intelligence Requirements (GIRs) associated with the classification",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GIR"
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "description": "Error response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "File": {
+        "description": "File information",
+        "type": "object",
+        "properties": {
+          "md5": {
+            "description": "MD5 hash of the file",
+            "type": "string"
+          },
+          "sha1": {
+            "description": "SHA-1 hash of the file",
+            "type": "string"
+          },
+          "sha256": {
+            "description": "SHA-256 hash of the file",
+            "type": "string"
+          },
+          "size": {
+            "description": "Size of the file in bytes",
+            "type": "integer",
+            "format": "int64"
+          },
+          "ssdeep": {
+            "description": "SSDeep hash of the file",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the file",
+            "type": "string"
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "GIR": {
+        "description": "General Intelligence Requirement information",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the General Intelligence Requirement",
+            "type": "string"
+          },
+          "path": {
+            "description": "Path of the General Intelligence Requirement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "path"
+        ]
+      },
+      "GeoIp": {
+        "description": "Geographical information associated with the IP address",
+        "type": "object",
+        "properties": {
+          "city": {
+            "description": "City name where the IP address is located",
+            "type": "string"
+          },
+          "country": {
+            "description": "Country name where the IP address is located",
+            "type": "string"
+          },
+          "country_code": {
+            "description": "Two-letter country code (ISO 3166-1 alpha-2) where the IP address is located",
+            "type": "string"
+          },
+          "isp": {
+            "description": "Internet Service Provider information for the IP address",
+            "$ref": "#/components/schemas/IspData"
+          },
+          "subdivision": {
+            "description": "Administrative subdivisions (states, provinces, etc.) where the IP address is located",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "IndicatorData": {
+        "description": "Indicator data",
+        "type": "object",
+        "properties": {
+          "domain": {
+            "description": "Domain information",
+            "type": "string"
+          },
+          "email": {
+            "description": "Email information",
+            "type": "string"
+          },
+          "file": {
+            "description": "File information",
+            "$ref": "#/components/schemas/File"
+          },
+          "ipv4": {
+            "description": "IPv4 information",
+            "$ref": "#/components/schemas/Ipv4"
+          },
+          "url": {
+            "description": "URL information",
+            "type": "string"
+          },
+          "yara": {
+            "description": "YARA information",
+            "$ref": "#/components/schemas/YaraData"
+          }
+        }
+      },
+      "IndicatorsStream": {
+        "description": "Stream of indicators",
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total count of indicators matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Cursor for retrieving the next page of results",
+            "type": "string"
+          },
+          "indicators": {
+            "description": "List of indicators",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationsIndicator"
+            }
+          }
+        }
+      },
+      "IntegrationsIndicator": {
+        "description": "Indicator data",
+        "type": "object",
+        "properties": {
+          "activity": {
+            "description": "Activity information related to the entity",
+            "$ref": "#/components/schemas/Activity"
+          },
+          "classification": {
+            "description": "Classification information for the entity",
+            "$ref": "#/components/schemas/Classification"
+          },
+          "confidence": {
+            "description": "Confidence score for the indicator (0-100)",
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "description": "Indicator data containing specific details",
+            "$ref": "#/components/schemas/IndicatorData"
+          },
+          "description": {
+            "description": "Descriptive information about the indicator",
+            "type": "string"
+          },
+          "expiration_ts": {
+            "description": "Timestamp when the indicator expires",
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "description": "Unique identifier of the entity",
+            "type": "string"
+          },
+          "kill_chain_phases": {
+            "description": "List of kill chain phases associated with the entity",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KillChainPhase"
+            }
+          },
+          "pattern": {
+            "description": "Pattern string for the indicator",
+            "type": "string"
+          },
+          "pattern_type": {
+            "description": "Type of pattern used for the indicator",
+            "type": "string"
+          },
+          "pattern_version": {
+            "description": "Version of the pattern specification",
+            "type": "string"
+          },
+          "revocation": {
+            "description": "Revocation information for the indicator, if applicable",
+            "$ref": "#/components/schemas/Revocation"
+          },
+          "threat": {
+            "description": "Threat information associated with the entity",
+            "$ref": "#/components/schemas/Threat"
+          },
+          "type": {
+            "description": "Type of indicator",
+            "type": "string",
+            "enum": [
+              "domain",
+              "email",
+              "file",
+              "ipv4",
+              "url",
+              "yara"
+            ]
+          }
+        }
+      },
+      "Ipv4": {
+        "description": "Information about an IPv4 address",
+        "type": "object",
+        "properties": {
+          "geo_ip": {
+            "description": "Geographical information associated with the IP address",
+            "$ref": "#/components/schemas/GeoIp"
+          },
+          "ip_address": {
+            "description": "IPv4 address in dotted decimal notation",
+            "type": "string"
+          }
+        }
+      },
+      "IspData": {
+        "description": "Internet Service Provider information for the IP address",
+        "type": "object",
+        "properties": {
+          "autonomous_system": {
+            "description": "Autonomous System Number (ASN) information",
+            "type": "string"
+          },
+          "isp": {
+            "description": "Name of the Internet Service Provider",
+            "type": "string"
+          },
+          "network": {
+            "description": "Network range information for the IP address",
+            "type": "string"
+          },
+          "organization": {
+            "description": "Organization name associated with the IP address",
+            "type": "string"
+          }
+        }
+      },
+      "KillChainPhase": {
+        "description": "Kill chain phase information",
+        "type": "object",
+        "properties": {
+          "kill_chain_name": {
+            "description": "Name of the kill chain framework",
+            "type": "string"
+          },
+          "phase_name": {
+            "description": "Name of the phase within the kill chain",
+            "type": "string"
+          }
+        }
+      },
+      "Malware": {
+        "description": "Malware information",
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "Component name of the malware",
+            "type": "string"
+          },
+          "family": {
+            "description": "Family name of the malware",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier of the malware",
+            "type": "string"
+          },
+          "variant": {
+            "description": "Variant of the malware version, if applicable",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version string of the malware",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "MalwareFamily": {
+        "description": "Malware family information",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier of the malware family",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the malware family",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Revocation": {
+        "description": "Revocation information",
+        "type": "object",
+        "properties": {
+          "revoked": {
+            "description": "Boolean value to indicate whether the entity is revoked",
+            "type": "boolean"
+          }
+        }
+      },
+      "Threat": {
+        "description": "Threat information for the entity",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Detailed data about the threat",
+            "$ref": "#/components/schemas/ThreatData"
+          },
+          "type": {
+            "description": "Type of the threat",
+            "type": "string",
+            "enum": [
+              "malware",
+              "bulletproof_hosting"
+            ]
+          }
+        }
+      },
+      "ThreatData": {
+        "description": "Threat data information for the entity",
+        "type": "object",
+        "properties": {
+          "bulletproof_hosting": {
+            "description": "Information about the bulletproof hosting",
+            "$ref": "#/components/schemas/BulletproofHosting"
+          },
+          "malware": {
+            "description": "Information about the malware",
+            "$ref": "#/components/schemas/Malware"
+          },
+          "malware_family": {
+            "description": "Information about the malware family",
+            "$ref": "#/components/schemas/MalwareFamily"
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "YaraData": {
+        "description": "Yara data",
+        "type": "object",
+        "properties": {
+          "signature": {
+            "description": "Yara signature",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title of the Yara rule",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "description": "Provide basic authentication credentials.",
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}

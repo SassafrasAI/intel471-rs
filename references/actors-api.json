@@ -1,0 +1,534 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Actors API",
+    "version": "1.0.2",
+    "description": "This package is used to retrieve actors."
+  },
+  "servers": [
+    {
+      "description": "Actors API server",
+      "url": "https://api.intel471.cloud/integrations/actors/v1"
+    }
+  ],
+  "paths": {
+    "/actors/stream": {
+      "get": {
+        "operationId": "getActorsStream",
+        "summary": "Retrieve a stream of actors",
+        "description": "Get actor stream.",
+        "parameters": [
+          {
+            "name": "actor",
+            "in": "query",
+            "description": "Search by actor handle.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "example_actor"
+          },
+          {
+            "name": "forum",
+            "in": "query",
+            "description": "Apply filtering by forum display name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Apply filtering by from timestamp - UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1627776000000
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Apply filtering by until timestamp - UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1627776000000
+          },
+          {
+            "name": "server_type",
+            "in": "query",
+            "description": "Search by specific server type for messages",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChatServerType"
+            },
+            "example": "Telegram"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorStreamPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Actors"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Activity": {
+        "description": "Activity information for the actor",
+        "type": "object",
+        "properties": {
+          "first_seen_ts": {
+            "description": "First time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_ts": {
+            "description": "Last time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "first_seen_ts",
+          "last_seen_ts"
+        ]
+      },
+      "Actor": {
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "forum": {
+            "$ref": "#/components/schemas/Forum"
+          },
+          "handles": {
+            "description": "Actor names - from most current in use first, and list historical handles.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the actor",
+            "type": "string"
+          },
+          "instant_message_server": {
+            "$ref": "#/components/schemas/ImServer"
+          },
+          "report": {
+            "$ref": "#/components/schemas/Report"
+          }
+        },
+        "required": [
+          "id",
+          "activity"
+        ]
+      },
+      "ActorStreamPage": {
+        "type": "object",
+        "properties": {
+          "actors": {
+            "description": "A page of matched actors",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Actor"
+            }
+          },
+          "count": {
+            "description": "Total count of matched actors",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "BadRequest": {
+        "description": "Bad request response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "ChatServerType": {
+        "type": "string",
+        "enum": [
+          "Telegram",
+          "Discord",
+          "IRC",
+          "WhatsApp",
+          "QQ",
+          "ICQ",
+          "Matrix",
+          "Signal",
+          "UNKNOWN"
+        ]
+      },
+      "Conflict": {
+        "description": "Conflict response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Forbidden": {
+        "description": "Forbidden response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Forum": {
+        "description": "A forum that the actor is associated with",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The unique ID of the forum",
+            "type": "string"
+          },
+          "title": {
+            "description": "A forum that the actor is associated with",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "ImServer": {
+        "description": "A messaging service that the actor is associated with",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ChatServerType"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "InternalServerError": {
+        "description": "Internal server error response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "NotFound": {
+        "description": "Not found response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "creation_ts": {
+            "description": "Timestamp when the report was created (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information in the report (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp when the report was last updated (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was released (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "sub_type": {
+            "description": "Fintel or Geopol report subtype",
+            "type": "string",
+            "enum": [
+              "fintel_blog",
+              "adversary_profile",
+              "threat_brief",
+              "intelligence_summary",
+              "malware_campaign",
+              "spot_report",
+              "underground_pulse",
+              "breach_report",
+              "actor_profile",
+              "service_profile",
+              "whitepaper",
+              "underground_perspective",
+              "tension_point_profile",
+              "intelligence_bulletin",
+              "intelligence_estimate",
+              "significant_activity_report"
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/ReportType"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "creation_ts",
+          "last_updated_ts",
+          "information_ts",
+          "released_ts",
+          "links"
+        ]
+      },
+      "ReportType": {
+        "description": "Type of the report",
+        "type": "string",
+        "enum": [
+          "fintel",
+          "info_report",
+          "breach_alert",
+          "spot_report",
+          "vulnerability_report",
+          "malware_report",
+          "geopol_report",
+          "situation_report",
+          "news_report"
+        ]
+      },
+      "SourceLink": {
+        "description": "Link",
+        "type": "object",
+        "properties": {
+          "href": {
+            "description": "Link URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "href"
+        ]
+      },
+      "SourceLinks": {
+        "description": "Available links",
+        "type": "object",
+        "properties": {
+          "external": {
+            "$ref": "#/components/schemas/SourceLink"
+          },
+          "verity_api": {
+            "$ref": "#/components/schemas/SourceLink"
+          },
+          "verity_portal": {
+            "$ref": "#/components/schemas/SourceLink"
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "scheme": "basic",
+        "type": "http",
+        "description": "Provide basic authentication credentials."
+      }
+    }
+  }
+}

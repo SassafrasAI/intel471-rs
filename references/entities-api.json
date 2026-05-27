@@ -1,0 +1,566 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Entities API",
+    "version": "1.0.0",
+    "description": "Welcome to the **Entities API** This package is used to retrieve entities."
+  },
+  "servers": [
+    {
+      "url": "https://api.intel471.cloud/integrations/entities/v1",
+      "description": "Entities API server"
+    }
+  ],
+  "paths": {
+    "/entities/stream": {
+      "get": {
+        "operationId": "getEntitiesStream",
+        "summary": "Retrieve a stream of entities",
+        "description": "Get entity stream.",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "query",
+            "description": "The entity value to search for. Supports partial match",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "intel.com"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Filter entity type",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EntityType"
+            },
+            "example": "BitcoinAddress"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Apply filtering by from timestamp - UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1627776000000
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Apply filtering by until timestamp - UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1627776000000
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityStreamPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "entities"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Activity": {
+        "description": "Activity information related to the entity",
+        "type": "object",
+        "properties": {
+          "first_seen_ts": {
+            "description": "First time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_ts": {
+            "description": "Last time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "first_seen_ts",
+          "last_seen_ts"
+        ]
+      },
+      "ActorObject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "handles": {
+            "description": "Actor names - from most current in use first, and list historical handles.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "forum": {
+            "$ref": "#/components/schemas/ForumObject"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "BadRequest": {
+        "description": "Bad request response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Conflict": {
+        "description": "Conflict response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Entity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier of the entity",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EntityType"
+          },
+          "value": {
+            "description": "The value of the entity",
+            "type": "string"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "report": {
+            "$ref": "#/components/schemas/Report"
+          },
+          "actor": {
+            "$ref": "#/components/schemas/ActorObject"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "value",
+          "activity"
+        ]
+      },
+      "EntityStreamPage": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total count of matched entities",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "entities": {
+            "description": "A page of matched entities",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entity"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "EntityType": {
+        "type": "string",
+        "enum": [
+          "AIM",
+          "ActorDomain",
+          "BitcoinAddress",
+          "BitcoinTransactionID",
+          "CveID",
+          "OtherCryptoCurrencies",
+          "EmailAddress",
+          "Facebook",
+          "Handle",
+          "ICQ",
+          "IPv4Prefix",
+          "IPv6Prefix",
+          "Jabber",
+          "MSN",
+          "MalwareFamily",
+          "MobileMalwareFamily",
+          "PerfectMoneyID",
+          "Phone",
+          "QQ",
+          "QiwiWallet",
+          "Skype",
+          "Twitter",
+          "X",
+          "URL",
+          "VK",
+          "WebMoneyID",
+          "WebMoneyPurse",
+          "YahooIM",
+          "YandexMoney",
+          "Telegram",
+          "Tag",
+          "Tox",
+          "PasswordHash",
+          "Password",
+          "PGPKey",
+          "PGPKeyID",
+          "ActorOtherWebsite",
+          "Odnoklassniki",
+          "MoiMir",
+          "Instagram",
+          "LinkedIn",
+          "GitHub",
+          "Discord",
+          "WeChat",
+          "Wickr",
+          "Signal",
+          "IPAddress"
+        ]
+      },
+      "Forbidden": {
+        "description": "Forbidden response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "ForumObject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier of a forum",
+            "type": "string"
+          },
+          "title": {
+            "description": "The name of the forum that the actor is associated with",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "InternalServerError": {
+        "description": "Internal server error response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Link": {
+        "description": "Link to the source",
+        "type": "object",
+        "properties": {
+          "href": {
+            "description": "URL to the source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "href"
+        ]
+      },
+      "Links": {
+        "description": "Links to the source",
+        "type": "object",
+        "properties": {
+          "verity_api": {
+            "$ref": "#/components/schemas/Link"
+          },
+          "verity_portal": {
+            "$ref": "#/components/schemas/Link"
+          },
+          "external": {
+            "$ref": "#/components/schemas/Link"
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not found response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ReportType"
+          },
+          "sub_type": {
+            "description": "Fintel or Geopol report subtype",
+            "type": "string",
+            "enum": [
+              "fintel_blog",
+              "adversary_profile",
+              "threat_brief",
+              "intelligence_summary",
+              "malware_campaign",
+              "spot_report",
+              "underground_pulse",
+              "breach_report",
+              "actor_profile",
+              "service_profile",
+              "whitepaper",
+              "underground_perspective",
+              "tension_point_profile",
+              "intelligence_bulletin",
+              "intelligence_estimate",
+              "significant_activity_report"
+            ]
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was created (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp when the report was last updated (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information in the report (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was released (ISO 8601)",
+            "type": "string",
+            "format": "date-time"
+          },
+          "links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "creation_ts",
+          "last_updated_ts",
+          "information_ts",
+          "released_ts",
+          "links"
+        ]
+      },
+      "ReportType": {
+        "description": "Type of the report",
+        "type": "string",
+        "enum": [
+          "fintel",
+          "info_report",
+          "breach_alert",
+          "spot_report",
+          "vulnerability_report",
+          "malware_report",
+          "geopol_report",
+          "situation_report",
+          "news_report"
+        ]
+      },
+      "Unauthorized": {
+        "description": "Unauthorized response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Provide basic authentication credentials."
+      }
+    }
+  }
+}

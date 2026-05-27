@@ -1,0 +1,175 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GIRS API",
+    "description": "Welcome to the **GIRS API** - API to retrieve GIR information\n- **GIR** stands for General Intelligence Requirement. GIRs are commonly asked intelligence questions  applicable to generic threats observed in the cybercrime underground. Each GIR includes specific EEIs  (Essential Elements of Information) that need to be answered in order to fulfill the intelligence requirement.\n\n- **PIR** stands for Priority Intelligence Requirement. A GIR that has been prioritized and ranked by the customer  for the purpose of shaping Intel 471 intelligence collection and reporting.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.intel471.cloud/integrations/girs/v1",
+      "description": "GIR API server"
+    }
+  ],
+  "paths": {
+    "/girs/tree": {
+      "get": {
+        "operationId": "Get list of GIRs in a hierarchical structure",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GirsTreeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "GIRs"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GirTree": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "deprecated": {
+            "type": "boolean"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GirTree"
+            }
+          }
+        }
+      },
+      "GirsTreeResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "The total count of all GIRs returned.",
+            "type": "integer",
+            "format": "int64",
+            "example": 42
+          },
+          "girs": {
+            "description": "A list of GIRs organized in a hierarchical tree structure.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GirTree"
+            }
+          }
+        },
+        "required": [
+          "count",
+          "girs"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "description": "Provide basic authentication credentials.",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}

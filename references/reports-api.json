@@ -1,0 +1,5066 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Reports API",
+    "version": "1.0.5"
+  },
+  "servers": [
+    {
+      "description": "Reports API server",
+      "url": "https://api.intel471.cloud/integrations/intel-report/v1"
+    }
+  ],
+  "paths": {
+    "/reports/breach-alert/stream": {
+      "get": {
+        "operationId": "getReportsBreach-alertStream",
+        "summary": "Get all breach alert reports (stream)",
+        "description": "Returns list of reports",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BreachAlertsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/breach-alert/{id}": {
+      "get": {
+        "operationId": "getReportsBreach-alertId",
+        "summary": "Get a breach alert report details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--6312bcbe-feb6-5b4d-bfec-ad2ddeabcc21"
+          },
+          {
+            "name": "include_inline_images",
+            "in": "query",
+            "description": "Inline images",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BreachAlertByIdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/fintel/stream": {
+      "get": {
+        "operationId": "getReportsFintelStream",
+        "summary": "Get all fintel reports (stream)",
+        "description": "Returns list of reports (stream)",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "sub_type",
+            "in": "query",
+            "description": "If using filter `type=fintel`, you can then further filter result by subtypes (supports multiple). Allowed values: actor_profile, intelligence_bulletin, service_profile, underground_perspective, underground_pulse, whitepaper, threat_brief, breach_report, intelligence_summary, malware_campaign, fintel_blog",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": false
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FintelReportsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/fintel/{id}": {
+      "get": {
+        "operationId": "getReportsFintelId",
+        "summary": "Get a fintel report details",
+        "description": "Returns a fintel report based on id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--2e3c8a71-5811-59e0-a7bc-4a4a31a1b22f"
+          },
+          {
+            "name": "include_inline_images",
+            "in": "query",
+            "description": "Inline images",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FintelResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/fintel/{report_id}/attachments/{attachment_id}": {
+      "get": {
+        "operationId": "getReportsFintelReport_idAttachmentsAttachment_id",
+        "summary": "Get attachment for fintel report",
+        "description": "Returns attachment in form of byte stream",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--2e3c8a71-5811-59e0-a7bc-4a4a31a1b22f"
+          },
+          {
+            "name": "attachment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "18a8df76cb766e9aed83c9450a30921a920c6509e44cd7e6a6cdac6a58e549e7"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Disposition": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/geopol/stream": {
+      "get": {
+        "operationId": "getReportsGeopolStream",
+        "summary": "Get all geopol reports (stream)",
+        "description": "Returns a list of geopol reports (stream)",
+        "parameters": [
+          {
+            "name": "sub_type",
+            "in": "query",
+            "description": "Filter result by GEOPOL subtypes. Allowed values: spot_report, intelligence_bulletin, intelligence_summary, tension_point_profile, threat_brief, significant_activity_report, intelligence_estimate, adversary_profile",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": false
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "description": "Filter result by country.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "report_location_country",
+            "in": "query",
+            "description": "Filter result by report location.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 100]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeopolReportsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/geopol/{id}": {
+      "get": {
+        "operationId": "getReportsGeopolId",
+        "summary": "Get a geopol report details",
+        "description": "Returns a details of a geopol report",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--e42e87d7-b2a4-5f56-aaa2-e64c4f08e422"
+          },
+          {
+            "name": "include_inline_images",
+            "in": "query",
+            "description": "Inline images",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeopolReportDetailsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/geopol/{report_id}/attachments/{attachment_id}": {
+      "get": {
+        "operationId": "getReportsGeopolReport_idAttachmentsAttachment_id",
+        "summary": "Get attachment for geopol report",
+        "description": "Returns attachment in form of byte stream",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--7c404c08-ff9c-5107-99fd-bc56d21151b1"
+          },
+          {
+            "name": "attachment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c681d9e851ab6663adea8b1c229c35d322dd1b19e7810f3601c6e022fc5dff99"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Disposition": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/info/stream": {
+      "get": {
+        "operationId": "getReportsInfoStream",
+        "summary": "Get all info reports (stream)",
+        "description": "Returns list of info reports (stream)",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InfoReportsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/info/{id}": {
+      "get": {
+        "operationId": "getReportsInfoId",
+        "summary": "Get an info report details",
+        "description": "Return info report by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--f9a6b8f4-f931-5781-856e-f435af22074e"
+          },
+          {
+            "name": "include_inline_images",
+            "in": "query",
+            "description": "Inline images",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InfoReportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/info/{report_id}/attachments/{attachment_id}": {
+      "get": {
+        "operationId": "getReportsInfoReport_idAttachmentsAttachment_id",
+        "summary": "Get attachment for info report",
+        "description": "Returns attachment in form of byte stream",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--f9a6b8f4-f931-5781-856e-f435af22074e"
+          },
+          {
+            "name": "attachment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "a19d91df22cfd225c2942d519b2e3f05451602b6a0c51a6b6acbb548db00861b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Disposition": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/malware/stream": {
+      "get": {
+        "operationId": "getReportsMalwareStream",
+        "summary": "Get all malware reports (stream)",
+        "description": "Returns list of malware reports (stream)",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "malware_family",
+            "in": "query",
+            "description": "Search malware reports by malware family",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "threat_id",
+            "in": "query",
+            "description": "Search malware reports by threat ID",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "threat_type",
+            "in": "query",
+            "description": "Search malware reports by threat type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MalwareReportsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/malware/{id}": {
+      "get": {
+        "operationId": "getReportsMalwareId",
+        "summary": "Get a malware report details",
+        "description": "Returns malware report based by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--407ec14f-23c5-5d6b-8e3d-0b8d9d7413a2"
+          },
+          {
+            "name": "include_inline_images",
+            "in": "query",
+            "description": "Inline images",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MalwareReportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/malware/{report_id}/attachments/{attachment_id}": {
+      "get": {
+        "operationId": "getReportsMalwareReport_idAttachmentsAttachment_id",
+        "summary": "Get attachment for malware report",
+        "description": "Returns attachment in form of byte stream",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--407ec14f-23c5-5d6b-8e3d-0b8d9d7413a2"
+          },
+          {
+            "name": "attachment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "d2149d75c7c32facda76ca586d696a6fe968d859a525d84788f18cf5f00ade52"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Disposition": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/spot/stream": {
+      "get": {
+        "operationId": "getReportsSpotStream",
+        "summary": "Get all spot reports (stream)",
+        "description": "Returns list of spot reports (stream)",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpotReportsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/spot/{id}": {
+      "get": {
+        "operationId": "getReportsSpotId",
+        "summary": "Get a spot report details",
+        "description": "Returns spot report by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--32b605e5-362c-5c10-b797-38f25da8cc0d"
+          },
+          {
+            "name": "include_inline_images",
+            "in": "query",
+            "description": "Inline images",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpotReportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/stream": {
+      "get": {
+        "operationId": "getReportsStream",
+        "summary": "Get all reports (stream)",
+        "description": "Returns list of reports (stream)",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), my_girs or company_pirs. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Filter result by type of report (supports multiple). Allowed values: fintel, info_report, breach_alert, spot_report, vulnerability_report, malware_report, geopol_report, situation_report, news_report",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": false
+          },
+          {
+            "name": "sub_type",
+            "in": "query",
+            "description": "If using filter `report_type=fintel` or `report_type=geopol_report`, you can then further filter result by subtypes (supports multiple). Allowed values for fintel: actor_profile, intelligence_bulletin, service_profile, underground_perspective, underground_pulse, whitepaper, threat_brief, breach_report, intelligence_summary, malware_campaign, fintel_blog, for geopol: spot_report, intelligence_bulletin, intelligence_summary, tension_point_profile, threat_brief, significant_activity_report, intelligence_estimate, adversary_profile",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": false
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/vulnerability/stream": {
+      "get": {
+        "operationId": "getReportsVulnerabilityStream",
+        "summary": "Get all vulnerabilities reports (stream)",
+        "description": "Returns list of vulnerabilities reports (stream)",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Vulnerabilities status type",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/VulnerabilityStatus"
+            }
+          },
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search reports based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "girs",
+            "in": "query",
+            "description": "Filter result by custom GIRs (General intel requirements), `my_girs` or `company_pirs`. Using multiple value will return result based on the aggregated GIR list",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1.0.1,2.1.0,my_girs,company_pirs"
+          },
+          {
+            "name": "risk_level",
+            "in": "query",
+            "description": "Search reports in a given risk level",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/RiskLevel"
+              }
+            }
+          },
+          {
+            "name": "patch_status",
+            "in": "query",
+            "description": "Search reports with given patch status.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PatchStatus"
+              }
+            }
+          },
+          {
+            "name": "interest_level",
+            "in": "query",
+            "description": "Search reports with given interest level.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/InterestLevel"
+              }
+            }
+          },
+          {
+            "name": "activity_location",
+            "in": "query",
+            "description": "Search reports with given activity location.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ActivityLocation"
+              }
+            }
+          },
+          {
+            "name": "exploit_status",
+            "in": "query",
+            "description": "Search reports with given exploit status.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ExploitStatus"
+              }
+            }
+          },
+          {
+            "name": "cve_type",
+            "in": "query",
+            "description": "Search reports with given cve type.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cve_name",
+            "in": "query",
+            "description": "Search reports with given cve name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vendor_name",
+            "in": "query",
+            "description": "Search reports with given vendor name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_name",
+            "in": "query",
+            "description": "Search reports with given product name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VulnerabilitiesReportsResponseStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/vulnerability/{id}": {
+      "get": {
+        "operationId": "getReportsVulnerabilityId",
+        "summary": "Get a vulnerability report details",
+        "description": "Returns a details of a vulnerabilities report",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "vulnerability--cebd8c83-47e4-5d53-bec7-92be770a32d5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VulnerabilitiesReportDetailsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/vulnerability/{id}/download-as-pdf": {
+      "get": {
+        "operationId": "getReportsVulnerabilityIdDownload-as-pdf",
+        "summary": "Get a vulnerability report as PDF",
+        "description": "Download vulnerability report as pdf",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "vulnerability--527c3004-241f-599d-9dbd-00ac1d6d52f6"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/reports/{id}/download-as-pdf": {
+      "get": {
+        "operationId": "getReportsIdDownload-as-pdf",
+        "summary": "Get a report as PDF",
+        "description": "Download report as pdf",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "report--407ec14f-23c5-5d6b-8e3d-0b8d9d7413a2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Type": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Reports"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Activity": {
+        "description": "Activity information related to the entity",
+        "type": "object",
+        "properties": {
+          "first_seen_ts": {
+            "description": "First time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_ts": {
+            "description": "Last time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "first_seen_ts",
+          "last_seen_ts"
+        ]
+      },
+      "ActivityLocation": {
+        "type": "string",
+        "enum": [
+          "location_opensource",
+          "location_underground",
+          "location_private"
+        ]
+      },
+      "ActorSubjectOfReport": {
+        "type": "object",
+        "properties": {
+          "aliases": {
+            "description": "List of alternative names for the actor",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "handle": {
+            "description": "Handle or identifier of the actor",
+            "type": "string"
+          }
+        },
+        "required": [
+          "handle"
+        ]
+      },
+      "AdmiraltyCode": {
+        "description": "Admiralty code indicating source reliability and confidence",
+        "type": "string",
+        "enum": [
+          "A1",
+          "A2",
+          "A3",
+          "A4",
+          "A5",
+          "A6",
+          "B1",
+          "B2",
+          "B3",
+          "B4",
+          "B5",
+          "B6",
+          "C1",
+          "C2",
+          "C3",
+          "C4",
+          "C5",
+          "C6",
+          "D1",
+          "D2",
+          "D3",
+          "D4",
+          "D5",
+          "D6",
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E5",
+          "E6",
+          "F1",
+          "F2",
+          "F3",
+          "F4",
+          "F5",
+          "F6"
+        ]
+      },
+      "Assessment": {
+        "description": "Report assessment details",
+        "type": "object",
+        "properties": {
+          "admiralty_code": {
+            "$ref": "#/components/schemas/AdmiraltyCode"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad request response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "BreachAlertByIdResponse": {
+        "type": "object",
+        "properties": {
+          "actor_or_group": {
+            "description": "Actor or group name",
+            "type": "string"
+          },
+          "body": {
+            "description": "Main content body of the report. This field may be omitted in streaming responses when content exceeds the configured maximum size; fetch full report by ID if needed.",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Report last update datetime",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "related_reports": {
+            "description": "List of related reports connected to this report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "victims": {
+            "description": "List of purported victims mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportsVictimResponse"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "information_ts",
+          "classification",
+          "actor_or_group",
+          "confidence",
+          "links"
+        ]
+      },
+      "BreachAlertResponse": {
+        "type": "object",
+        "properties": {
+          "actor_or_group": {
+            "description": "Actor or group name",
+            "type": "string"
+          },
+          "body": {
+            "description": "Main content body of the report. This field may be omitted in streaming responses when content exceeds the configured maximum size; fetch full report by ID if needed.",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Report last update datetime",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "related_reports": {
+            "description": "List of related reports connected to this report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "victims": {
+            "description": "List of purported victims mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportsVictimResponse"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "information_ts",
+          "classification",
+          "actor_or_group",
+          "confidence",
+          "links"
+        ]
+      },
+      "BreachAlertsResponseStream": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Number of total reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BreachAlertResponse"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "Classification": {
+        "description": "Classification information for the entity",
+        "type": "object",
+        "properties": {
+          "girs": {
+            "description": "List of General Intelligence Requirements (GIRs) associated with the classification",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GIR"
+            }
+          }
+        }
+      },
+      "Confidence": {
+        "description": "Confidence level and description",
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "Additional confidence description",
+            "type": "string"
+          },
+          "level": {
+            "$ref": "#/components/schemas/ConfidenceLevel"
+          }
+        },
+        "required": [
+          "level",
+          "description"
+        ]
+      },
+      "ConfidenceLevel": {
+        "description": "Confidence level, e.g. high, medium, low",
+        "type": "string",
+        "enum": [
+          "high",
+          "medium",
+          "low"
+        ]
+      },
+      "Conflict": {
+        "description": "Conflict response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "CountryProfileResponse": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "country_iso_code": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "information_ts": {
+            "type": "string"
+          },
+          "is_country_of_interest": {
+            "type": "boolean"
+          },
+          "security_assessment": {
+            "$ref": "#/components/schemas/SecurityAssessment"
+          },
+          "threat_rating": {
+            "$ref": "#/components/schemas/ThreatRating"
+          }
+        },
+        "required": [
+          "id",
+          "country",
+          "information_ts",
+          "is_country_of_interest"
+        ]
+      },
+      "Cvss": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "format": "float"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "score"
+        ]
+      },
+      "Entities": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "Type of the entity",
+            "type": "string"
+          },
+          "value": {
+            "description": "Value of the entity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "value"
+        ]
+      },
+      "EventTag": {
+        "type": "string",
+        "enum": [
+          "economic",
+          "social",
+          "military",
+          "political",
+          "legal",
+          "infotech",
+          "cyber",
+          "environmental"
+        ]
+      },
+      "ExploitStatus": {
+        "type": "string",
+        "enum": [
+          "available",
+          "weaponized",
+          "productized",
+          "not_observed"
+        ]
+      },
+      "FintelReportSubType": {
+        "description": "Fintel report subtype, e.g. ACTOR_PROFILE",
+        "type": "string",
+        "enum": [
+          "actor_profile",
+          "intelligence_bulletin",
+          "service_profile",
+          "underground_perspective",
+          "underground_pulse",
+          "whitepaper",
+          "threat_brief",
+          "breach_report",
+          "intelligence_summary",
+          "malware_campaign",
+          "fintel_blog"
+        ]
+      },
+      "FintelReportsResponseStream": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Number of total Fintel reports matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "reports": {
+            "description": "List of Fintel reports in the current batch",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FintelResponse"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "FintelResponse": {
+        "description": "Minimal schema for Fintel report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "attachments": {
+            "description": "List of attachments related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportAttachment"
+            }
+          },
+          "body": {
+            "description": "Main content body of the report. This field may be omitted in streaming responses when content exceeds the configured maximum size; fetch full report by ID if needed.",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "derived_entities": {
+            "description": "List of entities derived from the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "locations": {
+            "description": "List of locations related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportLocation"
+            }
+          },
+          "related_reports": {
+            "description": "List of related reports connected to this report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "sub_type": {
+            "$ref": "#/components/schemas/FintelReportSubType"
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "victims": {
+            "description": "List of purported victims mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportsVictimResponse"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "sub_type",
+          "title",
+          "information_ts",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "classification",
+          "links"
+        ]
+      },
+      "Forbidden": {
+        "description": "Forbidden response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "GIR": {
+        "description": "General Intelligence Requirement information",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the General Intelligence Requirement",
+            "type": "string"
+          },
+          "path": {
+            "description": "Path of the General Intelligence Requirement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "path"
+        ]
+      },
+      "GeopolReportDetailsResponse": {
+        "description": "Minimal schema for Geopolitical report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "active_event": {
+            "description": "Report related active event",
+            "type": "boolean"
+          },
+          "attachments": {
+            "description": "List of attachments related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportAttachment"
+            }
+          },
+          "body": {
+            "description": "Main content body of the report",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "country_profiles": {
+            "description": "Report related country profiles",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryProfileResponse"
+            }
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "derived_entities": {
+            "description": "List of entities derived from the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of information date",
+            "type": "string"
+          },
+          "intelligence_estimate": {
+            "$ref": "#/components/schemas/IntelligenceEstimateResponse"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "locations": {
+            "description": "List of locations related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportLocation"
+            }
+          },
+          "regional_tension_points": {
+            "description": "Report related tension points",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TensionPointResponse"
+            }
+          },
+          "related_reports": {
+            "description": "List of related reports connected to this report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "significant_activity": {
+            "$ref": "#/components/schemas/SignificantActivity"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "sub_type": {
+            "$ref": "#/components/schemas/GeopolReportSubType"
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "victims": {
+            "description": "List of purported victims mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportsVictimResponse"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "information_ts",
+          "classification",
+          "links"
+        ]
+      },
+      "GeopolReportSubType": {
+        "description": "Report subtype, e.g. intelligence_bulletin",
+        "type": "string",
+        "enum": [
+          "spot_report",
+          "intelligence_bulletin",
+          "intelligence_summary",
+          "tension_point_profile",
+          "threat_brief",
+          "significant_activity_report",
+          "intelligence_estimate",
+          "adversary_profile"
+        ]
+      },
+      "GeopolReportsResponseStream": {
+        "type": "object",
+        "properties": {
+          "adversary_profile_count": {
+            "description": "Count of Adversary Profile reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "count": {
+            "description": "Number of total Geopol reports matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "intelligence_bulletin_count": {
+            "description": "Count of Intelligence Bulletin reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "intelligence_estimate_count": {
+            "description": "Count of Intelligence Estimate reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "intelligence_summary_count": {
+            "description": "Count of Intelligence Summary reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "reports": {
+            "description": "List of Geopol reports in the current batch",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GeopolReportDetailsResponse"
+            }
+          },
+          "sigact_count": {
+            "description": "Count of Significant Activity Report reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "spot_count": {
+            "description": "Count of Geopol Spot Report reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "tension_point_profile_count": {
+            "description": "Count of Tension Point Profile reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "threat_brief_count": {
+            "description": "Count of Threat Brief reports",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "count",
+          "spot_count",
+          "intelligence_bulletin_count",
+          "intelligence_summary_count",
+          "tension_point_profile_count",
+          "adversary_profile_count",
+          "threat_brief_count",
+          "sigact_count",
+          "intelligence_estimate_count"
+        ]
+      },
+      "Industries": {
+        "type": "object",
+        "properties": {
+          "industry": {
+            "description": "Name of the industry",
+            "type": "string"
+          },
+          "sector": {
+            "description": "Sector of the industry",
+            "type": "string"
+          }
+        },
+        "required": [
+          "industry",
+          "sector"
+        ]
+      },
+      "InfoReportResponse": {
+        "description": "Minimal schema for inforep report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "actor_subject_of_report": {
+            "description": "List of actors who are the subject of the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorSubjectOfReport"
+            }
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/Assessment"
+          },
+          "attachments": {
+            "description": "List of attachments related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportAttachment"
+            }
+          },
+          "body": {
+            "description": "Raw report text. This field may be omitted in streaming and UI responses when content exceeds the configured maximum size; fetch full report by ID if needed.",
+            "type": "string"
+          },
+          "body_translated": {
+            "description": "Raw report text translated to english. This field may be omitted when content exceeds the configured maximum size.",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "derived_entities": {
+            "description": "List of entities derived from the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "executive_summary": {
+            "description": "Executive summary",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "locations": {
+            "description": "List of locations related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportLocation"
+            }
+          },
+          "motivation": {
+            "description": "List of motivations related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Motivation"
+            }
+          },
+          "related_reports": {
+            "description": "List of related reports connected to this report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "researcher_comments": {
+            "description": "Researcher comments",
+            "type": "string"
+          },
+          "source_characterization": {
+            "description": "Characterization of the source of the report",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "victims": {
+            "description": "List of purported victims mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportsVictimResponse"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "assessment",
+          "title",
+          "information_ts",
+          "creation_ts",
+          "released_ts",
+          "source_characterization",
+          "last_updated_ts",
+          "classification",
+          "is_sensitive_source",
+          "researcher_comments",
+          "executive_summary",
+          "links"
+        ]
+      },
+      "InfoReportsResponseStream": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Number of total Info reports matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "reports": {
+            "description": "List of Info reports in the current batch",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InfoReportResponse"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "IntelligenceEstimateResponse": {
+        "description": "Report related intelligence estimate data",
+        "type": "object",
+        "properties": {
+          "is_country_of_interest": {
+            "type": "boolean"
+          },
+          "overview": {
+            "type": "string"
+          },
+          "report_location": {
+            "$ref": "#/components/schemas/ReportLocation"
+          },
+          "security_assessment": {
+            "$ref": "#/components/schemas/SecurityAssessment"
+          },
+          "text_toc": {
+            "type": "string"
+          },
+          "threat_rating": {
+            "$ref": "#/components/schemas/ThreatRating"
+          }
+        },
+        "required": [
+          "threat_rating",
+          "security_assessment",
+          "report_location",
+          "is_country_of_interest"
+        ]
+      },
+      "InterestLevel": {
+        "type": "string",
+        "enum": [
+          "disclosed_publicly",
+          "exploit_sought",
+          "researched_publicly"
+        ]
+      },
+      "InternalServerError": {
+        "description": "Internal server error response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "LinksSource": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "title": {
+            "description": "Title of the source",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "links",
+          "type"
+        ]
+      },
+      "MalwareReportResponse": {
+        "description": "Minimal schema describing a malware report with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "attachments": {
+            "description": "List of attachments related to the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportAttachment"
+            }
+          },
+          "body": {
+            "description": "Main content body of the report. This field may be omitted in streaming responses when content exceeds the configured maximum size; fetch full report by ID if needed.",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "derived_entities": {
+            "description": "List of entities derived from the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "related_reports": {
+            "description": "List of related reports connected to this report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "threat": {
+            "$ref": "#/components/schemas/ThreatInfo"
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version of the report",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "last_updated_ts",
+          "creation_ts",
+          "information_ts",
+          "released_ts",
+          "version",
+          "classification",
+          "threat",
+          "links"
+        ]
+      },
+      "MalwareReportsResponseStream": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Number of total Malware reports matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "reports": {
+            "description": "List of Malware reports in the current batch",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MalwareReportResponse"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "Motivation": {
+        "type": "string",
+        "enum": [
+          "HA",
+          "CC",
+          "CE",
+          "DE"
+        ]
+      },
+      "NotFound": {
+        "description": "Not found response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "PatchStatus": {
+        "type": "string",
+        "enum": [
+          "available",
+          "some_available",
+          "unavailable"
+        ]
+      },
+      "Poc": {
+        "description": "Proof of concept code or demonstration status for the vulnerability",
+        "type": "string",
+        "enum": [
+          "observed",
+          "not_observed"
+        ]
+      },
+      "ReportAttachment": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "Description of the attachment",
+            "type": "string"
+          },
+          "file_name": {
+            "description": "Name of the attachment file",
+            "type": "string"
+          },
+          "file_size": {
+            "description": "Size of the attachment file in bytes",
+            "type": "integer",
+            "format": "int64"
+          },
+          "malicious": {
+            "description": "Indicates if the attachment is malicious",
+            "type": "boolean"
+          },
+          "mime_type": {
+            "description": "MIME type of the attachment",
+            "type": "string"
+          },
+          "url": {
+            "description": "URL to download the attachment",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "file_name",
+          "malicious",
+          "file_size",
+          "mime_type"
+        ]
+      },
+      "ReportContent": {
+        "description": "Minimal schema for report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "assessment": {
+            "$ref": "#/components/schemas/Assessment"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier of the related report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "sub_type": {
+            "description": "Fintel or Geopol report subtype, e.g. ACTOR_PROFILE",
+            "type": "string",
+            "enum": [
+              "fintel_blog",
+              "adversary_profile",
+              "threat_brief",
+              "intelligence_summary",
+              "malware_campaign",
+              "spot_report",
+              "underground_pulse",
+              "breach_report",
+              "actor_profile",
+              "service_profile",
+              "whitepaper",
+              "underground_perspective",
+              "tension_point_profile",
+              "intelligence_bulletin",
+              "intelligence_estimate",
+              "significant_activity_report"
+            ]
+          },
+          "summary": {
+            "description": "Report summary",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title of the related report",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ReportType"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "classification",
+          "links"
+        ]
+      },
+      "ReportLocation": {
+        "description": "Location information",
+        "type": "object",
+        "properties": {
+          "country": {
+            "description": "Country name related to the report",
+            "type": "string"
+          },
+          "iso": {
+            "description": "Country iso code related to the report",
+            "type": "string"
+          },
+          "link": {
+            "description": "Linkage type or relation to the location",
+            "type": "string"
+          },
+          "region": {
+            "description": "Region name related to the report",
+            "type": "string"
+          }
+        },
+        "required": [
+          "region"
+        ]
+      },
+      "ReportResponseStream": {
+        "type": "object",
+        "properties": {
+          "breach_alert_count": {
+            "description": "Number of breach alert reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "count": {
+            "description": "Total number of reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "fintel_report_count": {
+            "description": "Number of fintel reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "geopol_report_count": {
+            "description": "Number of geopol reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "info_report_count": {
+            "description": "Number of information reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "malware_report_count": {
+            "description": "Number of malware reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "reports": {
+            "description": "List of detailed reports",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "spot_report_count": {
+            "description": "Number of spot reports",
+            "type": "integer",
+            "format": "int64"
+          },
+          "vulnerability_report_count": {
+            "description": "Number of vulnerability reports",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "count",
+          "info_report_count",
+          "fintel_report_count",
+          "breach_alert_count",
+          "spot_report_count",
+          "malware_report_count",
+          "vulnerability_report_count",
+          "geopol_report_count"
+        ]
+      },
+      "ReportType": {
+        "description": "Type of the related report",
+        "type": "string",
+        "enum": [
+          "fintel",
+          "info_report",
+          "breach_alert",
+          "spot_report",
+          "vulnerability_report",
+          "malware_report",
+          "geopol_report",
+          "situation_report",
+          "news_report"
+        ]
+      },
+      "ReportsVictimResponse": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "description": "Country of the victim",
+            "type": "string"
+          },
+          "industries": {
+            "description": "List of Industries associated with the victim",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Industries"
+            }
+          },
+          "links": {
+            "description": "List of URLs associated with the victim",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourceLinks"
+            }
+          },
+          "name": {
+            "description": "Name of the victim",
+            "type": "string"
+          },
+          "region": {
+            "description": "Region information of the victim",
+            "type": "string"
+          },
+          "revenue": {
+            "description": "Revenue information of the victim",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "RiskLevel": {
+        "type": "string",
+        "enum": [
+          "high",
+          "medium",
+          "low"
+        ]
+      },
+      "SecurityAssessment": {
+        "type": "string",
+        "enum": [
+          "low",
+          "medium",
+          "high"
+        ]
+      },
+      "SignificantActivity": {
+        "description": "Report related significant activity data",
+        "type": "object",
+        "properties": {
+          "comments": {
+            "type": "string"
+          },
+          "event_tag": {
+            "$ref": "#/components/schemas/EventTag"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_tag"
+        ]
+      },
+      "SourceLink": {
+        "description": "Link",
+        "type": "object",
+        "properties": {
+          "href": {
+            "description": "Link URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "href"
+        ]
+      },
+      "SourceLinks": {
+        "description": "Links to the source",
+        "type": "object",
+        "properties": {
+          "external": {
+            "$ref": "#/components/schemas/SourceLink"
+          },
+          "verity_api": {
+            "$ref": "#/components/schemas/SourceLink"
+          },
+          "verity_portal": {
+            "$ref": "#/components/schemas/SourceLink"
+          }
+        }
+      },
+      "SourcesResponse": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "description": "Index of the source in the report text",
+            "type": "integer",
+            "format": "int32"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "source_type": {
+            "description": "Characterization of the source type",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title of the source",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "links"
+        ]
+      },
+      "SpotReportResponse": {
+        "description": "Minimal schema for Spot report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Main content body of the report. This field may be omitted in streaming responses when content exceeds the configured maximum size; fetch full report by ID if needed.",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "derived_entities": {
+            "description": "List of entities derived from related reports",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "entities": {
+            "description": "List of entities mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entities"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "information_ts": {
+            "description": "Timestamp of the information contained in the report",
+            "type": "string"
+          },
+          "is_sensitive_source": {
+            "description": "Indicates if the report contains sensitive source derived information",
+            "type": "boolean"
+          },
+          "is_truncated": {
+            "description": "True when the body field was omitted due to exceeding size limit; fetch full report by ID if needed",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "related_reports": {
+            "description": "List of related reports",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportContent"
+            }
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "title": {
+            "description": "Title of the report",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "victims": {
+            "description": "List of purported victims mentioned in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportsVictimResponse"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "last_updated_ts",
+          "creation_ts",
+          "released_ts",
+          "information_ts",
+          "classification",
+          "links"
+        ]
+      },
+      "SpotReportsResponseStream": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Number of total Spot reports matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "reports": {
+            "description": "List of Spot reports in the current batch",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpotReportResponse"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "TensionPointResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "information_ts": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "information_ts"
+        ]
+      },
+      "ThreatInfo": {
+        "description": "Detailed information about the threat described in the report",
+        "type": "object",
+        "properties": {
+          "family": {
+            "description": "Family classification of the threat.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique identifier of the threat.",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type of the threat.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "family"
+        ]
+      },
+      "ThreatRating": {
+        "type": "string",
+        "enum": [
+          "low",
+          "moderate",
+          "substantial",
+          "severe",
+          "critical"
+        ]
+      },
+      "Unauthorized": {
+        "description": "Unauthorized response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "VulnerabilitiesReportDetailsResponse": {
+        "description": "Minimal schema for a vulnerability report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "activity_location": {
+            "description": "List of locations where activity related to the vulnerability has been observed",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityLocation"
+            }
+          },
+          "aliases": {
+            "description": "List of alternative names or identifiers for the vulnerability",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "body": {
+            "description": "HTML formatted summary of the vulnerability",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "counter_measure_links": {
+            "description": "List of titled URLs to Counter Measures related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinksSource"
+            }
+          },
+          "counter_measures_html": {
+            "description": "HTML formatted summary of countermeasures for the vulnerability",
+            "type": "string"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "cve_type": {
+            "description": "Type of CVE, for example: Buffer overflow, Privilege escalation, Memory corruption, etc",
+            "type": "string"
+          },
+          "cvss": {
+            "description": "List of CVSS scores associated with the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cvss"
+            }
+          },
+          "exploit_status": {
+            "description": "List of exploitation status details for the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExploitStatus"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "interest_level": {
+            "description": "List of levels of interest related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InterestLevel"
+            }
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "name": {
+            "description": "Name of the vulnerability",
+            "type": "string"
+          },
+          "patch_links": {
+            "description": "List of titled URLs to Patches related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinksSource"
+            }
+          },
+          "patch_status": {
+            "$ref": "#/components/schemas/PatchStatus"
+          },
+          "poc": {
+            "$ref": "#/components/schemas/Poc"
+          },
+          "poc_links": {
+            "description": "List of titled URLs to Proofs of Concept related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinksSource"
+            }
+          },
+          "product_name": {
+            "description": "Name of the product of the affected software",
+            "type": "string"
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "risk_level": {
+            "$ref": "#/components/schemas/RiskLevel"
+          },
+          "sort_priority": {
+            "description": "Priority used for sorting vulnerability reports",
+            "type": "integer",
+            "format": "int32"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/VulnerabilityStatus"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "underground_activity_summary_html": {
+            "description": "HTML formatted summary of underground activity related to the vulnerability",
+            "type": "string"
+          },
+          "vendor_name": {
+            "description": "Name of the vendor of the affected software",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "name",
+          "status",
+          "cve_type",
+          "risk_level",
+          "vendor_name",
+          "product_name",
+          "classification",
+          "activity",
+          "links"
+        ]
+      },
+      "VulnerabilitiesReportDetailsResponseStream": {
+        "description": "Minimal schema for a vulnerability report response with keys, types, and descriptions",
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "activity_location": {
+            "description": "List of locations where activity related to the vulnerability has been observed",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityLocation"
+            }
+          },
+          "aliases": {
+            "description": "List of alternative names or identifiers for the vulnerability",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "body": {
+            "description": "HTML formatted summary of the vulnerability",
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/Classification"
+          },
+          "counter_measure_links": {
+            "description": "List of titled URLs to Counter Measures related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinksSource"
+            }
+          },
+          "counter_measures_html": {
+            "description": "HTML formatted summary of countermeasures for the vulnerability",
+            "type": "string"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the report was published first time",
+            "type": "string"
+          },
+          "cve_type": {
+            "description": "Type of CVE, for example: Buffer overflow, Privilege escalation, Memory corruption, etc",
+            "type": "string"
+          },
+          "cvss": {
+            "description": "List of CVSS scores associated with the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cvss"
+            }
+          },
+          "exploit_status": {
+            "description": "List of exploitation status details for the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExploitStatus"
+            }
+          },
+          "id": {
+            "description": "Unique identifier of the report",
+            "type": "string"
+          },
+          "interest_level": {
+            "description": "List of levels of interest related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InterestLevel"
+            }
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last report update",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourceLinks"
+          },
+          "name": {
+            "description": "Name of the vulnerability",
+            "type": "string"
+          },
+          "patch_links": {
+            "description": "List of titled URLs to Patches related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinksSource"
+            }
+          },
+          "patch_status": {
+            "$ref": "#/components/schemas/PatchStatus"
+          },
+          "poc": {
+            "$ref": "#/components/schemas/Poc"
+          },
+          "poc_links": {
+            "description": "List of titled URLs to Proofs of Concept related to the vulnerability",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinksSource"
+            }
+          },
+          "product_name": {
+            "description": "Name of the product of the affected software",
+            "type": "string"
+          },
+          "released_ts": {
+            "description": "Timestamp when the report was published last time",
+            "type": "string"
+          },
+          "risk_level": {
+            "$ref": "#/components/schemas/RiskLevel"
+          },
+          "sort_priority": {
+            "description": "Priority used for sorting vulnerability reports",
+            "type": "integer",
+            "format": "int32"
+          },
+          "sources": {
+            "description": "List of sources referenced in the report",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourcesResponse"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/VulnerabilityStatus"
+          },
+          "type": {
+            "description": "Type of the report",
+            "type": "string"
+          },
+          "underground_activity_summary_html": {
+            "description": "HTML formatted summary of underground activity related to the vulnerability",
+            "type": "string"
+          },
+          "vendor_name": {
+            "description": "Name of the vendor of the affected software",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "creation_ts",
+          "released_ts",
+          "last_updated_ts",
+          "name",
+          "status",
+          "cve_type",
+          "risk_level",
+          "vendor_name",
+          "product_name",
+          "classification",
+          "activity",
+          "links"
+        ]
+      },
+      "VulnerabilitiesReportsResponseStream": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Number of total Vulnerabilities reports matching the query",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "reports": {
+            "description": "List of Vulnerabilities reports in the current batch",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VulnerabilitiesReportDetailsResponseStream"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "VulnerabilityStatus": {
+        "type": "string",
+        "enum": [
+          "new",
+          "existing",
+          "historical"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  }
+}

@@ -1,0 +1,2217 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Sources API",
+    "version": "1.0.3"
+  },
+  "servers": [
+    {
+      "description": "Sources API server",
+      "url": "https://api.intel471.cloud/integrations/sources/v1"
+    }
+  ],
+  "paths": {
+    "/data-leak-sites/file-listings/{id}": {
+      "get": {
+        "operationId": "getData-leak-sitesFile-listingsId",
+        "summary": "Get a data leak site file listing content",
+        "description": "Returns data leak sites file listing content",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "file--082e91d6-2258-5f21-81d1-809bb96eb720"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Disposition": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Type": {
+                "required": false,
+                "schema": {
+                  "type": "string",
+                  "default": "application/zip"
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/data-leak-sites/posts/stream": {
+      "get": {
+        "operationId": "getData-leak-sitesPostsStream",
+        "summary": "Get data leak sites posts (stream)",
+        "description": "Returns data leak sites posts based on applied filters",
+        "parameters": [
+          {
+            "name": "website_id",
+            "in": "query",
+            "description": "Search data leak posts in a given data leak blog",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "thread_id",
+            "in": "query",
+            "description": "Search data leak posts by thread id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "thread--b0bf6f45-a087-5006-b7b6-f19916c3a88b"
+          },
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search posts based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp in milliseconds",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp in milliseconds",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataLeakSitePostsStreamingPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/forums/posts/stream": {
+      "get": {
+        "operationId": "getForumsPostsStream",
+        "summary": "Get forums posts (stream)",
+        "description": "Return posts in a thread",
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "query",
+            "description": "Search forum posts in a given forum.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "thread--d5e745de-a27a-5329-ab9c-1cd4632b2ed6"
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "description": "Search for posts authored by given actor user name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "author_id",
+            "in": "query",
+            "description": "Search for posts authored by given actor id.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "forum_title",
+            "in": "query",
+            "description": "Search for posts in a given forum.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search posts based on a keyword.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForumsPostsStreamingPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/forums/posts/{post_id}": {
+      "get": {
+        "operationId": "getForumsPostsPost_id",
+        "summary": "Get a forum post by id",
+        "description": "Return a single forum post by id",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "post--03d22f83-14f1-5d28-a94e-5807161c92f6"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostDetails1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/forums/private-messages/stream": {
+      "get": {
+        "operationId": "getForumsPrivate-messagesStream",
+        "summary": "Get forums private messages (stream)",
+        "description": "Returns a private messages conversations based on filters",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search for private messages based on a keyword.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "description": "Search for messages authored by given actor user name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "author_id",
+            "in": "query",
+            "description": "Search for messages authored by given actor id.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "forum_title",
+            "in": "query",
+            "description": "Search for messages in a given forum",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "description": "Search text in subjects of Private Messages.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "in": "query",
+            "description": "Search messages received by given actor user name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient_id",
+            "in": "query",
+            "description": "Search messages received by given actor id.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "forum_id",
+            "in": "query",
+            "description": "Search for messages in a given forum by `forum_id`. `forum_id` will take precedence if used together with the `forum_title` filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "forum--fafde818-43d5-5dbf-b5a9-83253bf13432"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForumsPrivateMessagesStreamingPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/forums/private-messages/{private_message_id}": {
+      "get": {
+        "operationId": "getForumsPrivate-messagesPrivate_message_id",
+        "summary": "Get a private message by id",
+        "description": "Return a single private message by id",
+        "parameters": [
+          {
+            "name": "private_message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "private-message--ff34a99a-08da-5313-a1ea-1ca9639a701d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivateMessageDetails1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/images/{image_type}/{hash}/{name}": {
+      "get": {
+        "operationId": "getImagesImage_typeHashName",
+        "summary": "Download image by type hash and name",
+        "parameters": [
+          {
+            "name": "image_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ImageType"
+            },
+            "example": "thumb"
+          },
+          {
+            "name": "hash",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "d383c5db40027a3d84153c808e6c1c78b3c6c68ff436d5d8c99fb677c32eb6ee"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "jhy2Gqc.gif"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Content-Disposition": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/messaging-services/messages/stream": {
+      "get": {
+        "operationId": "getMessaging-servicesMessagesStream",
+        "summary": "Get chat messages (stream)",
+        "description": "Return messages in a chat room",
+        "parameters": [
+          {
+            "name": "text_filter",
+            "in": "query",
+            "description": "Apply text filter to search messages based on a keyword",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "hacker"
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "description": "Search for messages authored by given actor user name handle.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "author_id",
+            "in": "query",
+            "description": "Search for messages authored by given actor id handle.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "actor--d9a4cda0-8d30-5e50-b730-2ee1145d4edd"
+          },
+          {
+            "name": "server_type",
+            "in": "query",
+            "description": "Filter results based on server type",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChatServerTypeStream"
+            }
+          },
+          {
+            "name": "server_id",
+            "in": "query",
+            "description": "Search for chat messages by chat server id.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "room_id",
+            "in": "query",
+            "description": "Search for chat messages by chat room id.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "room--92ac69ca-9d08-5cb5-a8e4-4d26c5e50311roo"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "UNIX timestamp(in milliseconds)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Range is: [1, 1000]",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Continue scrolling from cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatMessagesStreamingPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    },
+    "/messaging-services/messages/{message_id}": {
+      "get": {
+        "operationId": "getMessaging-servicesMessagesMessage_id",
+        "summary": "Get a chat message by id",
+        "description": "Return a single chat message by id",
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "message--99ebfde4-0d27-5daa-bca5-6d08aa827233"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatRoomMessageStream"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Sources"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Activity": {
+        "description": "Activity information related to the entity",
+        "type": "object",
+        "properties": {
+          "first_seen_ts": {
+            "description": "First time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_ts": {
+            "description": "Last time the entity was seen",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "first_seen_ts",
+          "last_seen_ts"
+        ]
+      },
+      "AttachmentClassification": {
+        "type": "string",
+        "enum": [
+          "csam",
+          "safe",
+          "unknown",
+          "unsafe"
+        ]
+      },
+      "AttachmentData": {
+        "type": "object",
+        "properties": {
+          "attachment_highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attachment_original_url": {
+            "type": "string"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/AttachmentClassification"
+          },
+          "dimensions": {
+            "type": "string"
+          },
+          "file_available": {
+            "type": "boolean"
+          },
+          "file_hash": {
+            "type": "string"
+          },
+          "file_name": {
+            "type": "string"
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "file_url": {
+            "type": "string"
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Highlight"
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "is_not_image": {
+            "type": "boolean"
+          },
+          "mime_type": {
+            "type": "string"
+          },
+          "original_height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "original_width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "processing_status": {
+            "$ref": "#/components/schemas/ProcessingStatus"
+          },
+          "recognized_logos": {
+            "type": "string"
+          },
+          "recognized_text": {
+            "type": "string"
+          },
+          "reporting_status": {
+            "$ref": "#/components/schemas/ReportingStatus"
+          },
+          "source_entity_id": {
+            "type": "string"
+          },
+          "thumbnail_available": {
+            "type": "boolean"
+          },
+          "thumbnail_height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "thumbnail_width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "webp_available": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "source_entity_id",
+          "file_name",
+          "file_hash",
+          "file_size",
+          "mime_type",
+          "processing_status",
+          "reporting_status",
+          "thumbnail_available",
+          "webp_available",
+          "file_available",
+          "is_not_image"
+        ]
+      },
+      "AuthorActor1": {
+        "type": "object",
+        "properties": {
+          "historical_usernames": {
+            "description": "Author previous usernames",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id": {
+            "description": "Unique id of actor",
+            "type": "string"
+          },
+          "user_name": {
+            "description": "Username",
+            "type": "string"
+          },
+          "user_name_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "user_name",
+          "user_name_id"
+        ]
+      },
+      "BadRequest": {
+        "description": "Bad request response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "ChatMessageStream": {
+        "description": "Message entity",
+        "type": "object",
+        "properties": {
+          "attachments": {
+            "description": "Message attachments and images",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentData"
+            }
+          },
+          "author": {
+            "$ref": "#/components/schemas/AuthorActor1"
+          },
+          "creation_ts": {
+            "description": "Timestamp when the message was published first time",
+            "type": "string"
+          },
+          "html": {
+            "description": "Message text in html format",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique id of message",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourcesLinks"
+          },
+          "text": {
+            "description": "Message text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "html",
+          "creation_ts"
+        ]
+      },
+      "ChatMessagesStreamingPage": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total count of matched message entities",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "messages": {
+            "description": "A page of matched message entities",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatRoomMessageStream"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "ChatRoomMessageStream": {
+        "description": "Chats Message and room",
+        "type": "object",
+        "properties": {
+          "chat_room": {
+            "$ref": "#/components/schemas/RoomStream"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessageStream"
+          },
+          "server": {
+            "$ref": "#/components/schemas/ServerStream"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "ChatServerTypeStream": {
+        "type": "string",
+        "enum": [
+          "telegram",
+          "discord",
+          "irc",
+          "whats_app",
+          "qq",
+          "icq",
+          "matrix",
+          "signal",
+          "unknown"
+        ]
+      },
+      "Conflict": {
+        "description": "Conflict response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "DataLeakSiteFileListingUrl": {
+        "description": "Post file listing",
+        "type": "object",
+        "properties": {
+          "download_url": {
+            "description": "API url for download file listing",
+            "type": "string"
+          }
+        },
+        "required": [
+          "download_url"
+        ]
+      },
+      "DataLeakSitePost1": {
+        "type": "object",
+        "properties": {
+          "attachments": {
+            "description": "Attachments and images in the post",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentData"
+            }
+          },
+          "creation_ts": {
+            "description": "First scraping date in ISO 8601 format",
+            "type": "string"
+          },
+          "file_listing": {
+            "$ref": "#/components/schemas/DataLeakSiteFileListingUrl"
+          },
+          "inactive_since": {
+            "description": "The date post became inactive or was reactivated again in ISO 8601 format",
+            "type": "string"
+          },
+          "is_inactive": {
+            "description": "True if post is inactive",
+            "type": "boolean"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last update",
+            "type": "string"
+          },
+          "message": {
+            "description": "Message of post",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title of post",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "message",
+          "creation_ts",
+          "last_updated_ts"
+        ]
+      },
+      "DataLeakSitePostItem": {
+        "type": "object",
+        "properties": {
+          "post": {
+            "$ref": "#/components/schemas/DataLeakSitePost1"
+          },
+          "thread": {
+            "$ref": "#/components/schemas/DataLeakSitePostThread"
+          },
+          "website": {
+            "$ref": "#/components/schemas/DataLeakSitePostWebsite"
+          }
+        },
+        "required": [
+          "post",
+          "thread",
+          "website"
+        ]
+      },
+      "DataLeakSitePostThread": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourcesLinks"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "links"
+        ]
+      },
+      "DataLeakSitePostWebsite": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "DataLeakSitePostsStreamingPage": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total count of matched post entities",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "posts": {
+            "description": "A page of matched post entities with nested thread and website",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataLeakSitePostItem"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "EntityItem": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "Entity type as snake_case string",
+            "type": "string"
+          },
+          "value": {
+            "description": "Entity value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "value"
+        ]
+      },
+      "Forbidden": {
+        "description": "Forbidden response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "ForumsPostsStreamingPage": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total count of matched post entities",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "posts": {
+            "description": "A page of matched post entities",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostDetails1"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "ForumsPrivateMessagesStreamingPage": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total count of matched private message entities",
+            "type": "integer",
+            "format": "int64"
+          },
+          "cursor_next": {
+            "description": "Stream position identifier to continue scrolling from",
+            "type": "string"
+          },
+          "private_messages": {
+            "description": "A page of matched private message entities",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrivateMessageDetails1"
+            }
+          }
+        },
+        "required": [
+          "count"
+        ]
+      },
+      "ForumsResponse1": {
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "description": {
+            "description": "Description of forum",
+            "type": "string"
+          },
+          "id": {
+            "description": "Forum unique id",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourcesLinks"
+          },
+          "title": {
+            "description": "Forum title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "activity"
+        ]
+      },
+      "Highlight": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "snippets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "field"
+        ]
+      },
+      "ImageType": {
+        "type": "string",
+        "enum": [
+          "large",
+          "original",
+          "thumb"
+        ]
+      },
+      "InternalServerError": {
+        "description": "Internal server error response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "Link": {
+        "description": "Link to the source",
+        "type": "object",
+        "properties": {
+          "href": {
+            "description": "URL to the source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "href"
+        ]
+      },
+      "NotFound": {
+        "description": "Not found response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      },
+      "PostDetails1": {
+        "type": "object",
+        "properties": {
+          "forum": {
+            "$ref": "#/components/schemas/ForumsResponse1"
+          },
+          "post": {
+            "$ref": "#/components/schemas/PostResponse1"
+          },
+          "sub_forum": {
+            "$ref": "#/components/schemas/SubForumResponse1"
+          },
+          "thread": {
+            "$ref": "#/components/schemas/ThreadResponse1"
+          }
+        },
+        "required": [
+          "post"
+        ]
+      },
+      "PostResponse1": {
+        "type": "object",
+        "properties": {
+          "attachments": {
+            "description": "Attachments and images in the post",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentData"
+            }
+          },
+          "author": {
+            "$ref": "#/components/schemas/AuthorActor1"
+          },
+          "creation_ts": {
+            "description": "First scraping date in ISO 8601 format",
+            "type": "string"
+          },
+          "entities": {
+            "description": "Entities extracted from the post",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityItem"
+            }
+          },
+          "html": {
+            "description": "HTML version of message",
+            "type": "string"
+          },
+          "id": {
+            "description": "Post unique id",
+            "type": "string"
+          },
+          "last_updated_ts": {
+            "description": "Timestamp of last update",
+            "type": "string"
+          },
+          "message": {
+            "description": "Original Message",
+            "type": "string"
+          },
+          "translated_message": {
+            "description": "Contains translated message if available",
+            "type": "string"
+          },
+          "translation_status": {
+            "$ref": "#/components/schemas/TranslationStatus"
+          }
+        },
+        "required": [
+          "id",
+          "message",
+          "html",
+          "creation_ts",
+          "last_updated_ts"
+        ]
+      },
+      "PrivateMessageDetails1": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/AuthorActor1"
+          },
+          "forum": {
+            "$ref": "#/components/schemas/ForumsResponse1"
+          },
+          "private_message": {
+            "$ref": "#/components/schemas/PrivateMessageResponse1"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/AuthorActor1"
+          }
+        },
+        "required": [
+          "private_message"
+        ]
+      },
+      "PrivateMessageResponse1": {
+        "type": "object",
+        "properties": {
+          "conversation_id": {
+            "description": "Conversation id",
+            "type": "string"
+          },
+          "creation_ts": {
+            "description": "Publish date in ISO 8601 format",
+            "type": "string"
+          },
+          "id": {
+            "description": "Unique id of private message",
+            "type": "string"
+          },
+          "message": {
+            "description": "Original Message",
+            "type": "string"
+          },
+          "subject": {
+            "description": "Message subject",
+            "type": "string"
+          },
+          "translated_message": {
+            "description": "Contains translated message if available",
+            "type": "string"
+          },
+          "translated_subject": {
+            "description": "Contains translated message subject if available",
+            "type": "string"
+          },
+          "translation_status": {
+            "$ref": "#/components/schemas/TranslationStatus"
+          }
+        },
+        "required": [
+          "id",
+          "message",
+          "creation_ts"
+        ]
+      },
+      "ProcessingStatus": {
+        "type": "string",
+        "enum": [
+          "converted",
+          "failed",
+          "pending",
+          "rejected"
+        ]
+      },
+      "ReportingStatus": {
+        "type": "string",
+        "enum": [
+          "none",
+          "removed",
+          "reported",
+          "validated"
+        ]
+      },
+      "RoomStream": {
+        "description": "Chat room entity",
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "channel_id": {
+            "description": "Chat room channel id",
+            "type": "string"
+          },
+          "description": {
+            "description": "Chat room description",
+            "type": "string"
+          },
+          "id": {
+            "description": "Chat room id",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourcesLinks"
+          },
+          "message_count": {
+            "description": "Number of messages in the room",
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "description": "Chat room name",
+            "type": "string"
+          },
+          "usernames": {
+            "description": "Chat room usernames",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "message_count",
+          "activity",
+          "channel_id"
+        ]
+      },
+      "ServerStream": {
+        "description": "Chat server entity",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Chat server id",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourcesLinks"
+          },
+          "name": {
+            "description": "Chat server name",
+            "type": "string"
+          },
+          "type": {
+            "description": "Chat server type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
+        ]
+      },
+      "SourcesLinks": {
+        "description": "URL to get forum details",
+        "type": "object",
+        "properties": {
+          "external": {
+            "$ref": "#/components/schemas/Link"
+          },
+          "verity_api": {
+            "$ref": "#/components/schemas/Link"
+          },
+          "verity_portal": {
+            "$ref": "#/components/schemas/Link"
+          }
+        }
+      },
+      "SubForumResponse1": {
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "id": {
+            "description": "Sub forum unique id",
+            "type": "string"
+          },
+          "title": {
+            "description": "Sub forum title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "activity"
+        ]
+      },
+      "ThreadResponse1": {
+        "type": "object",
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "id": {
+            "description": "Thread unique id",
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/SourcesLinks"
+          },
+          "post_count": {
+            "description": "Number of posts within a thread",
+            "type": "integer",
+            "format": "int64"
+          },
+          "topic": {
+            "description": "Topic name",
+            "type": "string"
+          },
+          "topic_original": {
+            "description": "Original topic name",
+            "type": "string"
+          },
+          "translation_status": {
+            "$ref": "#/components/schemas/TranslationStatus"
+          }
+        },
+        "required": [
+          "id",
+          "post_count",
+          "activity"
+        ]
+      },
+      "TranslationStatus": {
+        "description": "Post translation status",
+        "type": "string",
+        "enum": [
+          "WaitingForTranslation",
+          "InProgress",
+          "Done",
+          "Rejected"
+        ]
+      },
+      "Unauthorized": {
+        "description": "Unauthorized response",
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Timestamp of the error",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "error",
+          "timestamp"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  }
+}
