@@ -2,8 +2,8 @@ use intel471_rs::Intel471Client;
 
 fn client() -> Intel471Client {
     dotenvy::dotenv_override().ok();
-    let username = std::env::var("INTEL471_USERNAME").expect("INTEL471_USERNAME not set");
-    let api_key = std::env::var("INTEL471_API_KEY").expect("INTEL471_API_KEY not set");
+    let username = std::env::var("VERITY_CLIENT_ID").expect("VERITY_CLIENT_ID not set");
+    let api_key = std::env::var("VERITY_CLIENT_SECRET").expect("VERITY_CLIENT_SECRET not set");
     Intel471Client::new(username, api_key)
 }
 
