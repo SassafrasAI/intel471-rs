@@ -116,7 +116,7 @@ pub enum EntityType {
     IPAddress,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct EntityStreamPage {
     pub count: i64,
@@ -131,7 +131,7 @@ impl crate::models::common::StreamPage for EntityStreamPage {
     fn items(&self) -> &[Self::Item] { self.entities.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Entity {
     pub id: String,
@@ -143,7 +143,7 @@ pub struct Entity {
     pub actor: Option<ActorObject>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ActorObject {
     pub id: String,
@@ -151,7 +151,7 @@ pub struct ActorObject {
     pub forum: Option<ForumObject>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ForumObject {
     pub id: String,

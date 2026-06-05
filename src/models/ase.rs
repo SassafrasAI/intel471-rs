@@ -74,7 +74,7 @@ pub enum RiskLabel {
     CRITICAL,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorInfo {
     pub id: String,
@@ -86,7 +86,7 @@ pub struct MonitorInfo {
     pub threat: Option<bool>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct FindingStats {
     pub finding_count: i64,

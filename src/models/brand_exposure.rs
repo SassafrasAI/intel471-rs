@@ -93,7 +93,7 @@ pub enum RiskLabel {
     CRITICAL,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorInfo {
     pub id: String,
@@ -128,7 +128,7 @@ pub enum MonitorStatus {
     AnalysisRunning,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct FindingStats {
     pub finding_count: i64,
@@ -192,7 +192,7 @@ pub struct EditMonitorRequest {
     pub start_at: Option<u32>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CreateMonitorResponse {
     pub id: String,
@@ -222,7 +222,7 @@ pub struct ConfigurationInput {
     pub rules: Option<HashMap<String, RuleConfig>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ConfigurationOutput {
     #[serde(default)]
@@ -259,7 +259,7 @@ pub struct RuleConfig {
     pub threat: bool,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Scan {
     pub id: String,
@@ -321,7 +321,7 @@ pub enum LogType {
     FATAL,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorLogs {
     pub monitor_id: String,
@@ -332,7 +332,7 @@ pub struct MonitorLogs {
     pub logs: Vec<LogEntry>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct LogEntry {
     pub timestamp: f64,
@@ -427,7 +427,7 @@ pub struct PatchScanDataElementRequest {
     pub starred: Option<bool>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ScanDataResponse {
     #[serde(default)]
@@ -438,7 +438,7 @@ pub struct ScanDataResponse {
     pub totals: ScanDataTotals,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataElement {
     pub id: String,
@@ -454,7 +454,7 @@ pub struct DataElement {
     pub sources: Vec<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataEvent {
     pub id: String,
@@ -467,14 +467,14 @@ pub struct DataEvent {
     pub source: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataGraph {
     pub nodes: Vec<Node>,
     pub edges: Vec<Edge>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Node {
     pub id: String,
@@ -485,21 +485,21 @@ pub struct Node {
     pub family: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Edge {
     pub source: String,
     pub target: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataGraphResponse {
     pub totals: ScanDataTotals,
     pub graph: DataGraph,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ScanDataTotals {
     pub total: i64,
@@ -508,7 +508,7 @@ pub struct ScanDataTotals {
     pub sources: HashMap<String, i64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct TreeNode {
     pub id: String,
@@ -519,7 +519,7 @@ pub struct TreeNode {
     pub children: Vec<TreeNode>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ScanApiTreeNode {
     pub id: String,
@@ -531,7 +531,7 @@ pub struct ScanApiTreeNode {
     pub children: Vec<ScanApiTreeNode>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Schemas {
     pub enabled_modules: serde_json::Value,
@@ -541,14 +541,14 @@ pub struct Schemas {
     pub general: serde_json::Value,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OpenApiSchema {
     pub openapi: String,
     pub info: serde_json::Value,
     pub components: Components,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Components {
     pub schemas: Schemas,
 }

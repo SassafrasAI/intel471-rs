@@ -20,7 +20,7 @@ pub struct ActorStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ActorStreamPage {
     pub count: i64,
@@ -35,7 +35,7 @@ impl crate::models::common::StreamPage for ActorStreamPage {
     fn items(&self) -> &[Self::Item] { &self.actors }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Actor {
     pub id: String,
@@ -46,14 +46,14 @@ pub struct Actor {
     pub report: Option<Report>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Forum {
     pub id: String,
     pub title: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ImServer {
     pub id: String,

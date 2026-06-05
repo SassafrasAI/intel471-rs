@@ -48,7 +48,7 @@ pub enum ObservableType {
     SSLCertificateID,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ObservableStreamPage {
     pub count: i64,
@@ -63,7 +63,7 @@ impl crate::models::common::StreamPage for ObservableStreamPage {
     fn items(&self) -> &[Self::Item] { self.observables.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Observable {
     pub id: String,
@@ -75,7 +75,7 @@ pub struct Observable {
     pub report: Option<Report>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GeoIp {
     pub asn: Option<String>,
@@ -86,7 +86,7 @@ pub struct GeoIp {
     pub organization: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct IspInfo {
     pub network: Option<String>,

@@ -23,7 +23,7 @@ pub struct AlertsStreamRequest {
     pub is_trashed_included: Option<bool>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct StreamingAlertsResponse {
     pub alerts: Vec<StreamingWatcherAlert>,
@@ -38,7 +38,7 @@ impl StreamPage for StreamingAlertsResponse {
     fn items(&self) -> &[Self::Item] { &self.alerts }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct StreamingWatcherAlert {
     pub creation_ts: Option<String>,
@@ -53,21 +53,21 @@ pub struct StreamingWatcherAlert {
     pub watcher_id: Option<i64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Highlight {
     pub field_name: String,
     pub snippets: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct WatchersLinks {
     pub verity_api: Option<Href>,
     pub verity_portal: Option<Href>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Href {
     pub href: String,
@@ -94,14 +94,14 @@ pub struct WatcherGroupsRequest {
     pub name: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GetWatcherGroupResponseWrapper {
     pub count: i64,
     pub watchers_groups: Vec<GetWatcherGroupResponse>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GetWatcherGroupResponse {
     pub created_by: Option<String>,
@@ -133,7 +133,7 @@ pub enum WatcherGroupType {
     I471Global,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct NotificationSettingsResponse {
     pub created: Option<String>,
@@ -150,7 +150,7 @@ pub enum NotificationPreferenceType {
     Immediately,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ShareSettingsResponse {
     pub created: Option<String>,
@@ -173,14 +173,14 @@ pub struct WatchersRequest {
     pub name: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GetWatcherResponseWrapper {
     pub count: i64,
     pub watchers: Vec<GetWatcherResponse>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GetWatcherResponse {
     pub created_by: Option<String>,

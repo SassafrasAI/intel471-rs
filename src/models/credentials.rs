@@ -180,7 +180,7 @@ pub enum PasswordStrength {
     NotProvided,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialStreamPage {
     pub count: i64,
@@ -195,7 +195,7 @@ impl StreamPage for CredentialStreamPage {
     fn items(&self) -> &[Self::Item] { self.credentials.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Credential {
     pub id: String,
@@ -206,7 +206,7 @@ pub struct Credential {
     pub activity: ActivityResponse,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredDataResponse {
     pub credential_login: Option<String>,
@@ -220,7 +220,7 @@ pub struct CredDataResponse {
     pub credential_set_type: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredPasswordResponse {
     pub complexity: Option<CredPasswordComplexityResponse>,
@@ -229,7 +229,7 @@ pub struct CredPasswordResponse {
     pub password_plain: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredPasswordComplexityResponse {
     pub lowercase: Option<i32>,
@@ -245,14 +245,14 @@ pub struct CredPasswordComplexityResponse {
     pub entropy: Option<f64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredCredentialSetResponse {
     pub id: Option<String>,
     pub name: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct InfoStealerResponseSet {
     pub malware_family: Option<Vec<String>>,
@@ -269,7 +269,7 @@ pub struct InfoStealerResponseSet {
     pub version: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct InfoStealerResponseOption {
     pub malware_family: Option<String>,
@@ -286,33 +286,33 @@ pub struct InfoStealerResponseOption {
     pub version: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredStatisticsResponse {
     pub accessed_urls_count: Option<i32>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ClassificationResponse {
     pub girs: Option<Vec<GirsResponse>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GirsResponse {
     pub path: String,
     pub name: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ActivityResponse {
     pub first_seen_ts: String,
     pub last_seen_ts: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialOccurrenceStreamPage {
     pub count: i64,
@@ -327,7 +327,7 @@ impl StreamPage for CredentialOccurrenceStreamPage {
     fn items(&self) -> &[Self::Item] { self.credential_occurrences.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialOccurrence {
     pub id: String,
@@ -337,7 +337,7 @@ pub struct CredentialOccurrence {
     pub activity: ActivityResponse,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialOccurrenceDataResponse {
     pub file_path: Option<String>,
@@ -349,7 +349,7 @@ pub struct CredentialOccurrenceDataResponse {
     pub credential_type: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialOccurrenceCredResponse {
     pub id: String,
@@ -360,7 +360,7 @@ pub struct CredentialOccurrenceCredResponse {
     pub password: Option<CredPasswordResponse>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialSetStreamPage {
     pub count: i64,
@@ -375,7 +375,7 @@ impl StreamPage for CredentialSetStreamPage {
     fn items(&self) -> &[Self::Item] { self.credential_sets.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialSet {
     pub id: String,
@@ -386,7 +386,7 @@ pub struct CredentialSet {
     pub activity: ActivityResponse,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredSetDataResponse {
     pub name: Option<String>,
@@ -399,14 +399,14 @@ pub struct CredSetDataResponse {
     pub sources: Option<Vec<LinksSource>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct VictimResponse {
     pub name: Option<String>,
     pub urls: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct LinksSource {
     pub title: Option<String>,
@@ -415,7 +415,7 @@ pub struct LinksSource {
     pub type_: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SourceLinks {
     pub verity_api: Option<SourceLink>,
@@ -423,13 +423,13 @@ pub struct SourceLinks {
     pub external: Option<SourceLink>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SourceLink {
     pub href: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredSetStatisticsResponse {
     pub credentials_count: Option<i64>,
@@ -437,7 +437,7 @@ pub struct CredSetStatisticsResponse {
     pub accessed_urls_count: Option<i64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialSetAccessedUrlStreamPage {
     pub count: i64,
@@ -452,7 +452,7 @@ impl StreamPage for CredentialSetAccessedUrlStreamPage {
     fn items(&self) -> &[Self::Item] { self.access_urls.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredentialSetAccessedUrl {
     pub id: String,
@@ -462,7 +462,7 @@ pub struct CredentialSetAccessedUrl {
     pub activity: ActivityResponse,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CredSetAccessedUrlDataResponse {
     pub accessed_url: String,

@@ -77,7 +77,7 @@ pub enum RiskLabel {
     CRITICAL,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorInfo {
     pub id: String,
@@ -90,7 +90,7 @@ pub struct MonitorInfo {
     pub threat: bool,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[allow(non_camel_case_types)]
 pub enum MonitorStatus {
     CREATED,
@@ -112,7 +112,7 @@ pub enum MonitorStatus {
     ANALYSIS_RUNNING,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct FindingStats {
     pub finding_count: i64,
@@ -123,7 +123,7 @@ pub struct FindingStats {
     pub trigerred_by: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Scan {
     pub id: String,
@@ -133,7 +133,7 @@ pub struct Scan {
     pub status: ScanStatus,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[allow(non_camel_case_types)]
 pub enum ScanStatus {
     CREATED,
@@ -155,7 +155,7 @@ pub enum ScanStatus {
     ANALYSIS_RUNNING,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ScanData {
     pub id: String,
@@ -171,7 +171,7 @@ pub struct ScanData {
     pub sources: Vec<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ScanDataResponse {
     pub next: String,
@@ -180,7 +180,7 @@ pub struct ScanDataResponse {
     pub totals: ScanDataTotals,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ScanDataTotals {
     pub total: i64,
@@ -189,14 +189,14 @@ pub struct ScanDataTotals {
     pub sources: std::collections::HashMap<String, i64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataGraph {
     pub nodes: Vec<Node>,
     pub edges: Vec<Edge>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Node {
     pub id: String,
@@ -207,21 +207,21 @@ pub struct Node {
     pub family: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Edge {
     pub source: String,
     pub target: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataGraphResponse {
     pub totals: ScanDataTotals,
     pub graph: DataGraph,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct TreeNode {
     pub id: String,
@@ -253,7 +253,7 @@ pub enum Section {
     full,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct LogEntry {
     pub timestamp: f64,
@@ -272,7 +272,7 @@ pub enum LogEntryType {
     FATAL,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorLogs {
     pub monitor_id: String,
@@ -281,7 +281,7 @@ pub struct MonitorLogs {
     pub logs: Vec<LogEntry>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CreateMonitorResponse {
     pub id: String,
@@ -422,19 +422,19 @@ pub struct RuleConfig {
     pub threat: bool,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct OpenApiSchema {
     pub components: Option<Components>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Components {
     pub schemas: Schemas,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Schemas {
     pub enabled_modules: serde_json::Value,
@@ -444,7 +444,7 @@ pub struct Schemas {
     pub general: serde_json::Value,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataEvent {
     pub id: String,
@@ -457,7 +457,7 @@ pub struct DataEvent {
     pub source: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorImpactStats {
     pub current: i64,
@@ -465,14 +465,14 @@ pub struct MonitorImpactStats {
     pub past: i64,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorRiskStats {
     pub epoch: u32,
     pub risk_histogram: std::collections::HashMap<RiskLabel, MonitorRiskHistogramBucket>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MonitorRiskHistogramBucket {
     pub risk_min: f64,

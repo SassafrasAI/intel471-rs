@@ -164,7 +164,7 @@ pub struct ChatMessagesStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SourcesLinks {
     pub external: Option<Link>,
@@ -172,13 +172,13 @@ pub struct SourcesLinks {
     pub verity_portal: Option<Link>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Link {
     pub href: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct AuthorActor {
     pub id: String,
@@ -187,7 +187,7 @@ pub struct AuthorActor {
     pub historical_usernames: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct AttachmentData {
     pub id: String,
@@ -216,14 +216,14 @@ pub struct AttachmentData {
     pub thumbnail_width: Option<i32>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Highlight {
     pub field: String,
     pub snippets: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct EntityItem {
     #[serde(rename = "type")]
@@ -231,7 +231,7 @@ pub struct EntityItem {
     pub value: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataLeakSitePostsStreamingPage {
     pub count: i64,
@@ -246,7 +246,7 @@ impl StreamPage for DataLeakSitePostsStreamingPage {
     fn items(&self) -> &[Self::Item] { self.posts.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataLeakSitePostItem {
     pub post: DataLeakSitePost,
@@ -254,7 +254,7 @@ pub struct DataLeakSitePostItem {
     pub website: DataLeakSitePostWebsite,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataLeakSitePost {
     pub title: String,
@@ -267,13 +267,13 @@ pub struct DataLeakSitePost {
     pub is_inactive: Option<bool>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataLeakSiteFileListingUrl {
     pub download_url: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataLeakSitePostThread {
     pub id: String,
@@ -281,14 +281,14 @@ pub struct DataLeakSitePostThread {
     pub links: SourcesLinks,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct DataLeakSitePostWebsite {
     pub id: String,
     pub title: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ForumsPostsStreamingPage {
     pub count: i64,
@@ -303,7 +303,7 @@ impl StreamPage for ForumsPostsStreamingPage {
     fn items(&self) -> &[Self::Item] { self.posts.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct PostDetails {
     pub post: PostResponse,
@@ -312,7 +312,7 @@ pub struct PostDetails {
     pub thread: Option<ThreadResponse>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct PostResponse {
     pub id: String,
@@ -327,7 +327,7 @@ pub struct PostResponse {
     pub translation_status: Option<TranslationStatus>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ForumsResponse {
     pub id: String,
@@ -337,7 +337,7 @@ pub struct ForumsResponse {
     pub links: Option<SourcesLinks>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SubForumResponse {
     pub id: String,
@@ -345,7 +345,7 @@ pub struct SubForumResponse {
     pub activity: Activity,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ThreadResponse {
     pub id: String,
@@ -357,7 +357,7 @@ pub struct ThreadResponse {
     pub translation_status: Option<TranslationStatus>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ForumsPrivateMessagesStreamingPage {
     pub count: i64,
@@ -372,7 +372,7 @@ impl StreamPage for ForumsPrivateMessagesStreamingPage {
     fn items(&self) -> &[Self::Item] { self.private_messages.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct PrivateMessageDetails {
     pub private_message: PrivateMessageResponse,
@@ -381,7 +381,7 @@ pub struct PrivateMessageDetails {
     pub forum: Option<ForumsResponse>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct PrivateMessageResponse {
     pub id: String,
@@ -394,7 +394,7 @@ pub struct PrivateMessageResponse {
     pub translation_status: Option<TranslationStatus>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ChatMessagesStreamingPage {
     pub count: i64,
@@ -409,7 +409,7 @@ impl StreamPage for ChatMessagesStreamingPage {
     fn items(&self) -> &[Self::Item] { self.messages.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ChatRoomMessage {
     pub message: ChatMessageStream,
@@ -417,7 +417,7 @@ pub struct ChatRoomMessage {
     pub server: Option<ServerStream>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ChatMessageStream {
     pub id: String,
@@ -429,7 +429,7 @@ pub struct ChatMessageStream {
     pub links: Option<SourcesLinks>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct RoomStream {
     pub id: String,
@@ -442,7 +442,7 @@ pub struct RoomStream {
     pub usernames: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ServerStream {
     pub id: String,

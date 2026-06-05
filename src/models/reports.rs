@@ -248,7 +248,7 @@ pub struct ReportsStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ReportResponseStream {
     pub count: i64,
@@ -288,7 +288,7 @@ pub struct FintelStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct FintelReportsResponseStream {
     pub count: i64,
@@ -319,7 +319,7 @@ pub struct BreachAlertStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct BreachAlertsResponseStream {
     pub count: i64,
@@ -356,7 +356,7 @@ pub struct GeopolStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GeopolReportsResponseStream {
     pub count: i64,
@@ -395,7 +395,7 @@ pub struct InfoStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct InfoReportsResponseStream {
     pub count: i64,
@@ -432,7 +432,7 @@ pub struct MalwareStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MalwareReportsResponseStream {
     pub count: i64,
@@ -463,7 +463,7 @@ pub struct SpotStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SpotReportsResponseStream {
     pub count: i64,
@@ -514,7 +514,7 @@ pub struct VulnerabilityStreamRequest {
     pub cursor: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct VulnerabilitiesReportsResponseStream {
     pub count: i64,
@@ -529,27 +529,27 @@ impl StreamPage for VulnerabilitiesReportsResponseStream {
     fn items(&self) -> &[Self::Item] { self.reports.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Classification {
     pub girs: Option<Vec<Gir>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Gir {
     pub name: Option<String>,
     pub path: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Confidence {
     pub level: Option<ConfidenceLevel>,
     pub description: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Entities {
     #[serde(rename = "type")]
@@ -557,14 +557,14 @@ pub struct Entities {
     pub value: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Assessment {
     pub admiralty_code: Option<AdmiraltyCode>,
     pub confidence: Option<Confidence>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ReportAttachment {
     pub url: Option<String>,
@@ -575,7 +575,7 @@ pub struct ReportAttachment {
     pub description: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ReportContent {
     pub id: Option<String>,
@@ -594,7 +594,7 @@ pub struct ReportContent {
     pub sources: Option<Vec<SourcesResponse>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SourcesResponse {
     #[serde(rename = "type")]
@@ -606,7 +606,7 @@ pub struct SourcesResponse {
     pub links: Option<Links>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ReportLocation {
     pub region: Option<String>,
@@ -615,21 +615,21 @@ pub struct ReportLocation {
     pub link: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ActorSubjectOfReport {
     pub handle: Option<String>,
     pub aliases: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Industries {
     pub industry: Option<String>,
     pub sector: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ReportsVictimResponse {
     pub name: Option<String>,
@@ -640,7 +640,7 @@ pub struct ReportsVictimResponse {
     pub links: Option<Vec<Links>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct LinksSource {
     pub title: Option<String>,
@@ -649,7 +649,7 @@ pub struct LinksSource {
     pub links: Option<Links>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ThreatInfo {
     pub id: Option<String>,
@@ -658,7 +658,7 @@ pub struct ThreatInfo {
     pub family: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct CountryProfileResponse {
     pub id: Option<String>,
@@ -670,7 +670,7 @@ pub struct CountryProfileResponse {
     pub threat_rating: Option<ThreatRating>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct IntelligenceEstimateResponse {
     pub is_country_of_interest: Option<bool>,
@@ -681,7 +681,7 @@ pub struct IntelligenceEstimateResponse {
     pub threat_rating: Option<ThreatRating>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SignificantActivity {
     pub comments: Option<String>,
@@ -689,7 +689,7 @@ pub struct SignificantActivity {
     pub summary: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct TensionPointResponse {
     pub id: Option<String>,
@@ -697,14 +697,14 @@ pub struct TensionPointResponse {
     pub information_ts: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Cvss {
     pub version: Option<String>,
     pub score: Option<f32>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct FintelResponse {
     pub id: Option<String>,
@@ -730,7 +730,7 @@ pub struct FintelResponse {
     pub attachments: Option<Vec<ReportAttachment>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct BreachAlertResponse {
     pub id: Option<String>,
@@ -754,7 +754,7 @@ pub struct BreachAlertResponse {
     pub victims: Option<Vec<ReportsVictimResponse>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GeopolReportDetailsResponse {
     pub id: Option<String>,
@@ -785,7 +785,7 @@ pub struct GeopolReportDetailsResponse {
     pub victims: Option<Vec<ReportsVictimResponse>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct InfoReportResponse {
     pub id: Option<String>,
@@ -817,7 +817,7 @@ pub struct InfoReportResponse {
     pub attachments: Option<Vec<ReportAttachment>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MalwareReportResponse {
     pub id: Option<String>,
@@ -842,7 +842,7 @@ pub struct MalwareReportResponse {
     pub attachments: Option<Vec<ReportAttachment>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SpotReportResponse {
     pub id: Option<String>,
@@ -865,7 +865,7 @@ pub struct SpotReportResponse {
     pub victims: Option<Vec<ReportsVictimResponse>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct VulnerabilitiesReportDetailsResponse {
     pub id: Option<String>,
@@ -991,7 +991,7 @@ mod tests {
         assert!(matches!(rt, ThreatRating::Critical));
     }
 }
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct VulnerabilitiesReportDetailsResponseStream {
     pub id: Option<String>,

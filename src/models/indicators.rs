@@ -57,7 +57,7 @@ pub enum Confidence {
     Low,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct IndicatorsStream {
     pub count: i64,
@@ -72,7 +72,7 @@ impl crate::models::common::StreamPage for IndicatorsStream {
     fn items(&self) -> &[Self::Item] { self.indicators.as_deref().unwrap_or(&[]) }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct IntegrationsIndicator {
     pub id: String,
@@ -92,7 +92,7 @@ pub struct IntegrationsIndicator {
     pub threat: Option<Threat>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct IndicatorData {
     pub domain: Option<String>,
@@ -103,7 +103,7 @@ pub struct IndicatorData {
     pub yara: Option<YaraData>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct File {
     pub md5: Option<String>,
@@ -115,14 +115,14 @@ pub struct File {
     pub type_: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Ipv4 {
     pub ip_address: Option<String>,
     pub geo_ip: Option<GeoIp>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct GeoIp {
     pub city: Option<String>,
@@ -132,7 +132,7 @@ pub struct GeoIp {
     pub subdivision: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct IspData {
     pub autonomous_system: Option<String>,
@@ -141,40 +141,40 @@ pub struct IspData {
     pub organization: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct YaraData {
     pub signature: Option<String>,
     pub title: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Classification {
     pub girs: Option<Vec<Gir>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Gir {
     pub name: String,
     pub path: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct KillChainPhase {
     pub kill_chain_name: Option<String>,
     pub phase_name: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Revocation {
     pub revoked: Option<bool>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Threat {
     #[serde(rename = "type")]
@@ -182,7 +182,7 @@ pub struct Threat {
     pub data: Option<ThreatData>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ThreatData {
     pub bulletproof_hosting: Option<BulletproofHosting>,
@@ -190,13 +190,13 @@ pub struct ThreatData {
     pub malware_family: Option<MalwareFamily>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct BulletproofHosting {
     pub provider: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct Malware {
     pub id: String,
@@ -206,7 +206,7 @@ pub struct Malware {
     pub component: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub struct MalwareFamily {
     pub id: String,

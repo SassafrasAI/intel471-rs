@@ -7,7 +7,7 @@ license = "BSD-3-Clause"
 repository = "https://github.com/SassafrasAI/intel471-rs"
 
 [dependencies]
-reqwest = { version = "0.12", features = ["json", "native-tls"], default-features = false }
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_repr = "0.1"
